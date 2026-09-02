@@ -99,7 +99,7 @@ a,button,[role="button"],input,select,textarea{transition:color var(--transition
 .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--color-primary);outline:none;box-shadow:0 0 0 3px var(--color-primary-highlight)}
 .field textarea{resize:vertical;min-height:72px;font-family:var(--font-body)}
 
-/* PARTIDAS CHIPS INLINE — igual formato que estado */
+/* PARTIDAS CHIPS INLINE */
 .partidas-chips-wrap{display:flex;flex-wrap:wrap;gap:var(--space-2);padding:var(--space-2) 0}
 .partida-opcion{
   display:inline-flex;align-items:center;gap:var(--space-1);
@@ -121,18 +121,8 @@ a,button,[role="button"],input,select,textarea{transition:color var(--transition
   font-weight:700;
 }
 .partida-opcion.selected .partida-check{opacity:1}
-.partida-check{
-  width:12px;height:12px;
-  opacity:0;
-  flex-shrink:0;
-  transition:opacity var(--transition-interactive);
-}
-.partidas-resumen{
-  margin-top:var(--space-2);
-  font-size:var(--text-xs);
-  color:var(--color-text-muted);
-  font-weight:500;
-}
+.partida-check{width:12px;height:12px;opacity:0;flex-shrink:0;transition:opacity var(--transition-interactive);}
+.partidas-resumen{margin-top:var(--space-2);font-size:var(--text-xs);color:var(--color-text-muted);font-weight:500;}
 
 /* BODEGAS CHIPS */
 .bodegas-input{display:flex;flex-wrap:wrap;gap:var(--space-2);padding:var(--space-2);border:1px solid var(--color-border);border-radius:var(--radius-md);background:var(--color-bg);min-height:44px;align-items:flex-start;cursor:text}
@@ -155,16 +145,10 @@ a,button,[role="button"],input,select,textarea{transition:color var(--transition
 
 /* CARGO AUTOCOMPLETADO */
 .cargo-autocompletado{
-  display:none;
-  font-size:var(--text-xs);
-  font-weight:600;
-  color:var(--color-success);
-  margin-top:var(--space-1);
-  padding:var(--space-1) var(--space-2);
-  background:var(--color-success-highlight);
-  border-radius:var(--radius-sm);
-  align-items:center;
-  gap:4px;
+  display:none;font-size:var(--text-xs);font-weight:600;color:var(--color-success);
+  margin-top:var(--space-1);padding:var(--space-1) var(--space-2);
+  background:var(--color-success-highlight);border-radius:var(--radius-sm);
+  align-items:center;gap:4px;
 }
 .cargo-autocompletado.visible{display:flex;}
 
@@ -183,25 +167,17 @@ a,button,[role="button"],input,select,textarea{transition:color var(--transition
 .parse-row-val{color:var(--color-text);flex:1}
 .partida-tag{display:inline-flex;align-items:center;gap:4px;background:var(--color-primary-highlight);color:var(--color-primary-active);font-size:var(--text-xs);font-weight:600;padding:2px 10px;border-radius:var(--radius-full);margin:2px}
 
-/* NÓMINA TABLE */
+/* NÓMINA TABLE — solo lectura */
 .nomina-table-wrap{overflow-x:auto;border-radius:var(--radius-lg);border:1px solid var(--color-border);margin-bottom:var(--space-4)}
 .nomina-table{width:100%;font-size:var(--text-sm);border-collapse:collapse}
 .nomina-table th{background:var(--color-surface-offset);padding:var(--space-2) var(--space-3);text-align:left;font-size:var(--text-xs);font-weight:700;color:var(--color-text-muted);text-transform:uppercase;letter-spacing:0.04em;border-bottom:1px solid var(--color-divider)}
-.nomina-table td{padding:var(--space-2) var(--space-3);border-bottom:1px solid var(--color-divider);vertical-align:middle}
+.nomina-table td{padding:var(--space-2) var(--space-3);border-bottom:1px solid var(--color-divider);vertical-align:middle;color:var(--color-text);font-size:var(--text-sm)}
 .nomina-table tr:last-child td{border-bottom:none}
 .nomina-table tr:hover td{background:var(--color-surface-offset)}
-.nomina-table input{border:none;background:transparent;outline:none;font-size:var(--text-sm);color:var(--color-text);width:100%;padding:2px 4px}
-.nomina-table input:focus{background:var(--color-primary-highlight);border-radius:var(--radius-sm)}
-.nomina-table select{border:none;background:transparent;font-size:var(--text-sm);color:var(--color-text);width:100%;padding:2px 4px;cursor:pointer}
-.nomina-table select:focus{outline:2px solid var(--color-primary);border-radius:var(--radius-sm)}
-.btn-remove-worker{color:var(--color-error);padding:var(--space-1);border-radius:var(--radius-sm)}
-.btn-remove-worker:hover{background:var(--color-error-highlight)}
-.nomina-import-area{border:2px dashed var(--color-border);border-radius:var(--radius-lg);padding:var(--space-6);text-align:center;margin-bottom:var(--space-4);background:var(--color-surface-2);cursor:pointer;transition:all var(--transition-interactive)}
-.nomina-import-area:hover,.nomina-import-area.drag-over{border-color:var(--color-primary);background:var(--color-primary-highlight)}
-.nomina-import-area p{font-size:var(--text-sm);color:var(--color-text-muted);margin-top:var(--space-2)}
-.nomina-import-area .icon-upload{color:var(--color-primary);margin:0 auto var(--space-2)}
-.btn-add-worker{display:inline-flex;align-items:center;gap:var(--space-2);padding:var(--space-2) var(--space-4);background:var(--color-surface-offset);border:1.5px dashed var(--color-border);border-radius:var(--radius-md);font-size:var(--text-sm);color:var(--color-text-muted);font-weight:500;margin-top:var(--space-2)}
-.btn-add-worker:hover{border-color:var(--color-primary);color:var(--color-primary);background:var(--color-primary-highlight)}
+.nomina-num-cell{color:var(--color-text-faint);font-size:var(--text-xs);text-align:center;font-weight:600}
+.cargo-badge{display:inline-flex;align-items:center;background:var(--color-primary-highlight);color:var(--color-primary-active);font-size:var(--text-xs);font-weight:600;padding:2px 10px;border-radius:var(--radius-full)}
+.nomina-info-bar{background:var(--color-surface-offset);border:1px solid var(--color-border);border-radius:var(--radius-lg);padding:var(--space-3) var(--space-4);margin-bottom:var(--space-4);display:flex;align-items:center;gap:var(--space-3);font-size:var(--text-xs);color:var(--color-text-muted)}
+.nomina-info-bar svg{color:var(--color-primary);flex-shrink:0}
 
 /* PANEL GESTIÓN */
 .panel-gestion{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-xl);margin-bottom:var(--space-4);overflow:hidden;box-shadow:var(--shadow-sm)}
@@ -289,56 +265,35 @@ a,button,[role="button"],input,select,textarea{transition:color var(--transition
   <nav class="tab-nav" role="tablist">
     <button class="tab-btn active" role="tab" onclick="showTab('manual',this)">📋 Registro manual</button>
     <button class="tab-btn" role="tab" onclick="showTab('informe',this)">📨 Informe del supervisor</button>
-    <button class="tab-btn" role="tab" onclick="showTab('nómina',this)">👷 Nómina de cuadrilla</button>
+    <button class="tab-btn" role="tab" onclick="showTab('nomina',this)">👷 Nómina de cuadrilla</button>
   </nav>
 
-  <!-- TAB: NÓMINA DE CUADRILLA -->
-  <div class="tab-panel" id="tab-nómina">
+  <!-- TAB: NÓMINA DE CUADRILLA — solo lectura -->
+  <div class="tab-panel" id="tab-nomina">
     <div class="panel-gestion">
       <div class="panel-gestion-header">
-        <span class="panel-gestion-title">👷 Nómina de cuadrilla</span>
-        <span style="font-size:var(--text-xs);color:var(--color-text-muted)" id="nominaCount">0 trabajadores</span>
+        <span class="panel-gestion-title">👷 Nómina de cuadrilla — Obra activa</span>
+        <span style="font-size:var(--text-xs);color:var(--color-text-muted)" id="nominaCount">25 trabajadores</span>
       </div>
       <div class="panel-gestion-body">
-        <div class="nomina-import-area" id="importArea" onclick="document.getElementById('excelFileInput').click()"
-          ondragover="event.preventDefault();this.classList.add('drag-over')"
-          ondragleave="this.classList.remove('drag-over')"
-          ondrop="handleExcelDrop(event)">
-          <svg class="icon-upload" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-            <polyline points="17 8 12 3 7 8"/>
-            <line x1="12" y1="3" x2="12" y2="15"/>
-          </svg>
-          <strong style="font-size:var(--text-sm);color:var(--color-primary)">Importar desde Excel</strong>
-          <p>Arrastra tu archivo .xlsx o .xls aquí, o haz clic para seleccionar.<br>
-          <span style="font-size:var(--text-xs)">El archivo debe tener dos columnas: <strong>Nombre</strong> y <strong>Cargo/Profesión</strong> (con encabezado en la primera fila).</span></p>
+        <div class="nomina-info-bar">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <span>Esta es la nómina fija de la obra. Los trabajadores están disponibles automáticamente en el Registro Manual para autocompletar nombre y cargo.</span>
         </div>
-        <input type="file" id="excelFileInput" accept=".xlsx,.xls,.csv" style="display:none" onchange="handleExcelFile(this)">
-        <div class="nomina-table-wrap" id="nominaTableWrap" style="display:none">
-          <table class="nomina-table">
+        <div class="nomina-table-wrap">
+          <table class="nomina-table" id="nominaViewTable">
             <thead>
               <tr>
-                <th style="width:36px">#</th>
+                <th style="width:36px;text-align:center">#</th>
                 <th>Nombre del trabajador</th>
                 <th>Cargo / Profesión</th>
-                <th style="width:44px"></th>
               </tr>
             </thead>
-            <tbody id="nominaTableBody"></tbody>
+            <tbody id="nominaViewBody"></tbody>
           </table>
         </div>
-        <div style="display:flex;gap:var(--space-3);flex-wrap:wrap;margin-top:var(--space-3)">
-          <button class="btn-add-worker" onclick="agregarNominaItem()">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            Agregar trabajador manualmente
-          </button>
-          <button class="btn btn-secondary btn-sm" onclick="limpiarNomina()" style="margin-top:var(--space-2)" id="btnLimpiarNomina">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
-            Limpiar nómina
-          </button>
-        </div>
         <p style="font-size:var(--text-xs);color:var(--color-text-muted);margin-top:var(--space-3)">
-          Los trabajadores agregados aquí aparecerán en el listado desplegable del Registro Manual. Al seleccionar un nombre, el cargo se completará automáticamente.
+          Para modificar la nómina, contacta al administrador del sistema.
         </p>
       </div>
     </div>
@@ -447,8 +402,6 @@ a,button,[role="button"],input,select,textarea{transition:color var(--transition
 
 <div class="toast" id="toast"></div>
 
-<script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
-
 <script>
 const DICCIONARIO_PARTIDAS = [
   { nombre: "Obra gruesa / Hormigón", claves: ["hormigon","hormigón","losa","fundacion","fundación","radier","viga","pilares","muro estructural"] },
@@ -474,17 +427,40 @@ const DICCIONARIO_PARTIDAS = [
 const CATEGORIAS_ITEMIZADO = DICCIONARIO_PARTIDAS.map(p => p.nombre);
 const CARGOS = ["Bodegero","Encargada prevencion de riesgos","Encargado de obra","Gasfiter","Ingeniero de obra","Jornal","Jornal de Aseo","Maestro Albañil","Maestro Carpinteria Aluminio","Maestro Carpintero","Maestro Chapero","Maestro Soldador","Supervisor Soldador","Trazador"];
 
-let nominaCuadrilla = [];
-try { nominaCuadrilla = JSON.parse(localStorage.getItem('nominaCuadrilla') || '[]'); } catch(e){}
-if(nominaCuadrilla.length && typeof nominaCuadrilla[0] === 'string'){
-  nominaCuadrilla = nominaCuadrilla.map(n => ({nombre: n, cargo: ''}));
-}
+// ── NÓMINA FIJA HARDCODEADA ──
+const nominaCuadrilla = [
+  {nombre: "Daniel Ortega", cargo: "Maestro Soldador"},
+  {nombre: "Alan Fuentes L.", cargo: "Maestro Soldador"},
+  {nombre: "Freddy Navarro A.", cargo: "Maestro Soldador"},
+  {nombre: "David Raymond V.", cargo: "Trazador"},
+  {nombre: "Miguel Ramirez R.", cargo: "Jornal"},
+  {nombre: "Daniel Aliaga M.", cargo: "Maestro Carpinteria Aluminio"},
+  {nombre: "Carlos Diaz G.", cargo: "Jornal de Aseo"},
+  {nombre: "Fabian Leyton S.", cargo: "Jornal"},
+  {nombre: "Jose Romero A.", cargo: "Gasfiter"},
+  {nombre: "Andreson Mendoza I.", cargo: "Jornal"},
+  {nombre: "Patricio Saldias L.", cargo: "Maestro Albañil"},
+  {nombre: "Sergio Ulloa O.", cargo: "Maestro Albañil"},
+  {nombre: "Jean Villegas", cargo: "Jornal"},
+  {nombre: "Juan Diaz R.", cargo: "Maestro Carpintero"},
+  {nombre: "Michael Peña", cargo: "Jornal"},
+  {nombre: "Yaty Herode", cargo: "Maestro Chapero"},
+  {nombre: "Matias Vallejos", cargo: "Maestro Chapero"},
+  {nombre: "Paolo Bustamante A.", cargo: "Maestro Carpintero"},
+  {nombre: "Oscar Del Rio P.", cargo: "Supervisor Soldador"},
+  {nombre: "Sebastian Huentelaf E.", cargo: "Ingeniero de obra"},
+  {nombre: "Susana Espinoza V.", cargo: "Encargada prevencion de riesgos"},
+  {nombre: "Bernardo Sepulveda C.", cargo: "Encargado de obra"},
+  {nombre: "Martin Castañeda P.", cargo: "Bodegero"},
+  {nombre: "Claudio Hernandez", cargo: "Jornal"},
+  {nombre: "Carlos Morales", cargo: "Jornal"}
+];
 
 let trabajadores = [];
 let contadorId = 0;
 
 document.getElementById('fechaInput').value = new Date().toISOString().slice(0,10);
-renderNomina();
+renderNominaVista();
 
 // ── THEME TOGGLE ──
 (function(){
@@ -507,527 +483,374 @@ function showTab(id, btn){
   btn.classList.add('active');
 }
 
-function saveNomina(){
-  try{ localStorage.setItem('nominaCuadrilla', JSON.stringify(nominaCuadrilla)); }catch(e){}
-}
-
-function renderNomina(){
-  const tbody = document.getElementById('nominaTableBody');
-  const wrap = document.getElementById('nominaTableWrap');
+// ── RENDER NÓMINA SOLO LECTURA ──
+function renderNominaVista(){
+  const tbody = document.getElementById('nominaViewBody');
   const count = document.getElementById('nominaCount');
   if(!tbody) return;
   tbody.innerHTML = '';
   nominaCuadrilla.forEach((w, i) => {
     const tr = document.createElement('tr');
     tr.innerHTML = `
-      <td style="color:var(--color-text-muted);font-size:var(--text-xs);text-align:center">${i+1}</td>
-      <td><input type="text" value="${escHtml(w.nombre)}" placeholder="Nombre completo"
-        oninput="nominaCuadrilla[${i}].nombre=this.value;saveNomina();renderTrabajadores()"></td>
-      <td>
-        <select onchange="nominaCuadrilla[${i}].cargo=this.value;saveNomina();renderTrabajadores()">
-          <option value="">— Cargo —</option>
-          ${CARGOS.map(c=>`<option value="${c}" ${w.cargo===c?'selected':''}>${c}</option>`).join('')}
-        </select>
-      </td>
-      <td>
-        <button class="btn-remove-worker" onclick="eliminarDeNomina(${i})" title="Quitar">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-        </button>
-      </td>`;
+      <td class="nomina-num-cell">${i+1}</td>
+      <td style="font-weight:500">${escHtml(w.nombre)}</td>
+      <td><span class="cargo-badge">${escHtml(w.cargo)}</span></td>`;
     tbody.appendChild(tr);
   });
-  if(wrap) wrap.style.display = nominaCuadrilla.length ? 'block' : 'none';
-  if(count) count.textContent = nominaCuadrilla.length + ' trabajador' + (nominaCuadrilla.length !== 1 ? 'es' : '');
+  if(count) count.textContent = nominaCuadrilla.length + ' trabajadores';
 }
 
-function agregarNominaItem(){
-  nominaCuadrilla.push({nombre:'', cargo:''});
-  saveNomina();
-  renderNomina();
-  setTimeout(()=>{
-    const rows = document.querySelectorAll('#nominaTableBody tr');
-    if(rows.length){ const inp = rows[rows.length-1].querySelector('input'); if(inp) inp.focus(); }
-  },50);
-}
-
-function eliminarDeNomina(i){
-  nominaCuadrilla.splice(i,1);
-  saveNomina();
-  renderNomina();
-  renderTrabajadores();
-}
-
-function limpiarNomina(){
-  if(!confirm('¿Limpiar toda la nómina?')) return;
-  nominaCuadrilla = [];
-  saveNomina();
-  renderNomina();
-  renderTrabajadores();
-  showToast('Nómina limpiada');
-}
-
-function handleExcelDrop(e){
-  e.preventDefault();
-  document.getElementById('importArea').classList.remove('drag-over');
-  const file = e.dataTransfer.files[0];
-  if(file) procesarArchivoExcel(file);
-}
-function handleExcelFile(input){
-  if(input.files[0]) procesarArchivoExcel(input.files[0]);
-  input.value = '';
-}
-function procesarArchivoExcel(file){
-  const ext = file.name.split('.').pop().toLowerCase();
-  if(ext === 'csv'){
-    const reader = new FileReader();
-    reader.onload = e => {
-      const lines = e.target.result.split('\n').filter(l=>l.trim());
-      const data = lines.slice(1).map(l => {
-        const parts = l.split(/[,;]/).map(p=>p.trim().replace(/^"|"$/g,''));
-        return {nombre: parts[0]||'', cargo: parts[1]||''};
-      }).filter(r=>r.nombre);
-      importarNominaData(data, file.name);
-    };
-    reader.readAsText(file, 'UTF-8');
-    return;
-  }
-  if(typeof XLSX === 'undefined'){ showToast('Error: librería Excel no cargada'); return; }
-  const reader = new FileReader();
-  reader.onload = e => {
-    try {
-      const wb = XLSX.read(e.target.result, {type:'array'});
-      const ws = wb.Sheets[wb.SheetNames[0]];
-      const json = XLSX.utils.sheet_to_json(ws, {header:1, defval:''});
-      if(json.length < 2){ showToast('El archivo parece estar vacío o sin datos'); return; }
-      const header = json[0].map(h => String(h).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,''));
-      let colNombre = header.findIndex(h => h.includes('nombre'));
-      let colCargo = header.findIndex(h => h.includes('cargo') || h.includes('profesion') || h.includes('oficio'));
-      if(colNombre < 0) colNombre = 0;
-      if(colCargo < 0) colCargo = 1;
-      const data = json.slice(1)
-        .map(row => ({nombre: String(row[colNombre]||'').trim(), cargo: String(row[colCargo]||'').trim()}))
-        .filter(r => r.nombre);
-      importarNominaData(data, file.name);
-    } catch(err){
-      showToast('Error al leer el archivo: ' + err.message);
-    }
-  };
-  reader.readAsArrayBuffer(file);
-}
-function importarNominaData(data, filename){
-  if(!data.length){ showToast('No se encontraron trabajadores en el archivo'); return; }
-  data = data.map(w => {
-    const cNorm = w.cargo.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
-    const match = CARGOS.find(c => c.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'') === cNorm || cNorm.includes(c.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'')));
-    return {nombre: w.nombre, cargo: match || w.cargo};
-  });
-  nominaCuadrilla = data;
-  saveNomina();
-  renderNomina();
-  renderTrabajadores();
-  showToast(`✓ ${data.length} trabajadores importados desde "${filename}"`);
-}
+function escHtml(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
 function detectarPartidas(texto){
   if(!texto) return [];
   const norm = texto.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
-  return DICCIONARIO_PARTIDAS.filter(p =>
-    p.claves.some(clave => {
-      const normClave = clave.normalize('NFD').replace(/[\u0300-\u036f]/g,'');
-      return norm.includes(normClave);
-    })
-  ).map(p => p.nombre);
+  const encontradas = [];
+  DICCIONARIO_PARTIDAS.forEach(p => {
+    if(p.claves.some(c => norm.includes(c.normalize('NFD').replace(/[\u0300-\u036f]/g,'')))){
+      encontradas.push(p.nombre);
+    }
+  });
+  return encontradas;
 }
 
-function parsearInforme(){
-  const texto = document.getElementById('informeTexto').value.trim();
-  if(!texto){ showToast('Pega el texto del informe primero'); return; }
-  const partidas = detectarPartidas(texto);
-  const bodegasMatch = texto.match(/bodega[s]?\s*[\d,\s\-y]+/gi) || [];
-  let bodegas = [];
-  bodegasMatch.forEach(m => { const nums = m.match(/\d+/g); if(nums) bodegas = [...bodegas, ...nums]; });
-  bodegas = [...new Set(bodegas)];
-  const modMatch = texto.match(/m[oó]dulo\s*(\d+|[a-z]+)/i);
-  const moduloDetectado = modMatch ? 'Módulo '+modMatch[1] : '—';
-  const personasMatch = texto.match(/(\d+)\s*(maestro|maestros|jornal|jornales|trabajador|trabajadores|obrero|obreros)/gi) || [];
-  const personas = personasMatch.join(', ') || 'Ver descripción';
-  const fecha = document.getElementById('fechaInput').value;
+function detectarBodegas(texto){
+  const matches = texto.match(/bodega[s]?\s*([\d\s,y\-]+)/gi) || [];
+  const nums = [];
+  matches.forEach(m => {
+    const n = m.match(/\d+/g);
+    if(n) nums.push(...n);
+  });
+  return [...new Set(nums)];
+}
 
-  let html = '<div class="parse-result-title">✦ Resultado del análisis</div>';
-  html += row('Fecha', fecha);
-  html += row('Módulo detectado', moduloDetectado);
-  html += row('Bodegas', bodegas.length ? bodegas.join(', ') : '—');
-  html += row('Personal mencionado', personas);
-  if(partidas.length){
-    const tagsHTML = partidas.map(p=>`<span class="partida-tag">${p}</span>`).join('');
-    html += '<div class="parse-row"><span class="parse-row-key">Partidas sugeridas</span><span class="parse-row-val">' + tagsHTML + '</span></div>';
+// ── TRABAJADORES ──
+function renderTrabajadores(){
+  const list = document.getElementById('trabajadoresList');
+  const empty = document.getElementById('emptyWorkers');
+  if(!list) return;
+  list.innerHTML = '';
+  if(trabajadores.length === 0){ if(empty) empty.style.display=''; return; }
+  if(empty) empty.style.display='none';
+  trabajadores.forEach((t,i) => {
+    const card = document.createElement('div');
+    card.className='trabajador-card';
+    card.id='tc-'+t.id;
+
+    const badgeClass = {asiste:'badge-asiste',faena:'badge-faena',ambos:'badge-ambos',noasiste:'badge-noasiste'}[t.estado]||'badge-default';
+    const badgeLabel = {asiste:'Asiste',faena:'Faena ext.',ambos:'Asiste+Faena',noasiste:'No asiste'}[t.estado]||'Sin estado';
+    const estadoBadge = t.estado?`<span class="trabajador-estado-badge ${badgeClass}">${badgeLabel}</span>`:'';
+
+    const opciones = CATEGORIAS_ITEMIZADO.map(c=>`
+      <span class="partida-opcion${(t.partidas||[]).includes(c)?' selected':''}" onclick="togglePartida(${t.id},'${escHtml(c)}',this)">
+        <svg class="partida-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+        ${escHtml(c)}
+      </span>`).join('');
+
+    const bodegas = (t.bodegas||[]).map(b=>`
+      <span class="chip">${escHtml(b)}
+        <button class="chip-remove" onclick="removeBodega(${t.id},'${escHtml(b)}')">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </span>`).join('');
+
+    // Autocomplete options
+    const datalistId = 'dl-'+t.id;
+    const datalistOpts = nominaCuadrilla.map(w=>`<option value="${escHtml(w.nombre)}">`).join('');
+
+    card.innerHTML = `
+      <div class="trabajador-header" onclick="toggleCard(${t.id})">
+        <span class="trabajador-num">${i+1}</span>
+        <span class="trabajador-nombre-preview">${t.nombre||'Trabajador sin nombre'}</span>
+        ${estadoBadge}
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--color-text-muted);flex-shrink:0"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="trabajador-body${t.open===false?'hidden':''}" id="tbody-${t.id}">
+        <div class="field">
+          <label>Nombre</label>
+          <input type="text" list="${datalistId}" value="${escHtml(t.nombre)}" placeholder="Nombre del trabajador"
+            oninput="updateTrabajador(${t.id},'nombre',this.value);onNombreInput(${t.id},this.value)">
+          <datalist id="${datalistId}">${datalistOpts}</datalist>
+          <div class="cargo-autocompletado" id="cargo-hint-${t.id}">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            <span id="cargo-hint-text-${t.id}"></span>
+          </div>
+        </div>
+        <div class="field">
+          <label>Cargo</label>
+          <select onchange="updateTrabajador(${t.id},'cargo',this.value)">
+            <option value="">— Seleccionar —</option>
+            ${CARGOS.map(c=>`<option value="${c}"${t.cargo===c?' selected':''}>${c}</option>`).join('')}
+          </select>
+        </div>
+        <div class="field full">
+          <label>Estado del día</label>
+          <div class="estado-opciones">
+            ${['asiste','faena','ambos','noasiste'].map((e,_)=>{
+              const labels={asiste:'Asiste a obra',faena:'Trabaja en faena externa',ambos:'Asiste + Faena',noasiste:'No asiste'};
+              const selClass={asiste:'selected-asiste',faena:'selected-faena',ambos:'selected-ambos',noasiste:'selected-noasiste'}[e];
+              return `<label class="estado-opcion${t.estado===e?' '+selClass:''}" onclick="setEstado(${t.id},'${e}',this.parentElement)">
+                <input type="radio" name="estado-${t.id}" value="${e}"${t.estado===e?' checked':''}>
+                <span class="estado-dot"></span>${labels[e]}
+              </label>`;
+            }).join('')}
+          </div>
+        </div>
+        <div class="field full detalle-campo${(t.estado&&t.estado!=='noasiste')?'':' oculto'}" id="det-${t.id}">
+          <label>Partidas del itemizado</label>
+          <div class="partidas-chips-wrap">${opciones}</div>
+          <div class="partidas-resumen" id="presumen-${t.id}">${(t.partidas&&t.partidas.length)?t.partidas.length+' partida(s) seleccionada(s)':''}</div>
+        </div>
+        <div class="field full detalle-campo${(t.estado&&t.estado!=='noasiste')?'':' oculto'}" id="det2-${t.id}">
+          <label>Bodegas / ubicaciones</label>
+          <div class="bodegas-input" id="bodegas-input-${t.id}" onclick="document.getElementById('bodega-text-${t.id}').focus()">
+            ${bodegas}
+            <input type="text" id="bodega-text-${t.id}" placeholder="Ej: 69, 70 → Enter" onkeydown="handleBodegaKey(event,${t.id})">
+          </div>
+        </div>
+        <div class="field full detalle-campo${(t.estado&&t.estado!=='noasiste')?'':' oculto'}" id="det3-${t.id}">
+          <label>Observación</label>
+          <textarea placeholder="Actividad específica, avances, incidentes..." oninput="updateTrabajador(${t.id},'obs',this.value)">${escHtml(t.obs||'')}</textarea>
+        </div>
+        <div class="field full" style="display:flex;justify-content:flex-end">
+          <button class="btn btn-danger btn-sm" onclick="eliminarTrabajador(${t.id})">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+            Quitar
+          </button>
+        </div>
+      </div>`;
+    list.appendChild(card);
+  });
+}
+
+function onNombreInput(id, valor){
+  const w = nominaCuadrilla.find(w => w.nombre.toLowerCase() === valor.toLowerCase());
+  const hint = document.getElementById('cargo-hint-'+id);
+  const hintText = document.getElementById('cargo-hint-text-'+id);
+  if(w && w.cargo){
+    updateTrabajador(id,'cargo',w.cargo);
+    const sel = document.querySelector(`#tbody-${id} select`);
+    if(sel) sel.value = w.cargo;
+    if(hint){ hint.classList.add('visible'); hintText.textContent = '✓ Cargo autocompletado: '+w.cargo; }
+    setTimeout(()=>{ if(hint) hint.classList.remove('visible'); },3000);
   } else {
-    html += row('Partidas sugeridas', '⚠️ No se detectaron partidas automáticamente.');
+    if(hint) hint.classList.remove('visible');
   }
-  html += '<div style="margin-top:var(--space-4);padding-top:var(--space-3);border-top:1px solid var(--color-divider)">';
-  html += '<button class="btn btn-primary btn-sm" style="margin-top:var(--space-3)" onclick="cargarEnManual('+(JSON.stringify({bodegas,partidas,modulo:moduloDetectado,texto}))+')">Cargar en registro manual</button>';
-  html += '</div>';
-  const resultEl = document.getElementById('parseResult');
-  resultEl.innerHTML = html;
-  resultEl.classList.add('visible');
-  showToast('Informe analizado ✓');
-  window._parseData = {fecha,modulo:moduloDetectado,bodegas,partidas,personas,textoOriginal:texto};
-}
-function row(key,val){ return `<div class="parse-row"><span class="parse-row-key">${key}</span><span class="parse-row-val">${val}</span></div>`; }
-function cargarEnManual(data){
-  agregarTrabajador();
-  const t = trabajadores[trabajadores.length-1];
-  if(!t) return;
-  t.bodegas = data.bodegas || [];
-  t.categorias = data.partidas || [];
-  t.descripcion = data.texto || '';
-  renderTrabajadores();
-  showTab('manual', document.querySelectorAll('.tab-btn')[0]);
-  showToast('Datos cargados en registro manual ✓');
-  setTimeout(()=>{ document.getElementById('trabajadoresList').scrollIntoView({behavior:'smooth',block:'start'}); },300);
 }
 
 function agregarTrabajador(){
-  contadorId++;
-  const id=contadorId;
-  trabajadores.push({id,nombre:'',cargo:'',cargoDesdeNomina:false,estado:'asiste',bodegas:[],categorias:[],descripcion:''});
+  const id = ++contadorId;
+  trabajadores.push({id,nombre:'',cargo:'',estado:'',partidas:[],bodegas:[],obs:'',open:true});
   renderTrabajadores();
+  setTimeout(()=>{ const inp=document.querySelector(`#tbody-${id} input[type="text"]`); if(inp) inp.focus(); },50);
 }
+
 function eliminarTrabajador(id){
-  trabajadores=trabajadores.filter(t=>t.id!==id);
-  renderTrabajadores();
-}
-function renderTrabajadores(){
-  const list=document.getElementById('trabajadoresList');
-  const empty=document.getElementById('emptyWorkers');
-  empty.style.display=trabajadores.length===0?'block':'none';
-  list.innerHTML='';
-  trabajadores.forEach((t,i)=>{list.innerHTML+=buildTrabajadorHTML(t,i+1);});
-  trabajadores.forEach(t=>initBodegasChip(t.id));
-}
-
-function buildTrabajadorHTML(t,num){
-  const estadoMap = {
-    asiste:{cls:'badge-asiste',txt:'Interior / Bodega'},
-    faena:{cls:'badge-faena',txt:'Faena exterior'},
-    ambos:{cls:'badge-ambos',txt:'Ambos frentes'},
-    noasiste:{cls:'badge-noasiste',txt:'No asiste'}
-  };
-  const est = estadoMap[t.estado] || {cls:'badge-default',txt:'Sin estado'};
-  const preview = t.nombre || `Trabajador ${num}`;
-  const oculto = t.estado==='noasiste'?'oculto':'';
-
-  const enNomina = nominaCuadrilla.some(w => w.nombre === t.nombre && w.nombre.trim() !== '');
-  const modoManual = t.nombre && !enNomina;
-
-  const nominaOpts = nominaCuadrilla
-    .filter(w => w.nombre.trim())
-    .map(w => `<option value="${escHtml(w.nombre)}" ${t.nombre===w.nombre?'selected':''}>${escHtml(w.nombre)}</option>`)
-    .join('');
-
-  const nombreSelect = nominaOpts
-    ? `<select id="nombre-select-${t.id}" onchange="autocompletarCargo(${t.id},this.value)">
-        <option value="">— Seleccionar trabajador —</option>
-        ${nominaOpts}
-        <option value="__otro__" ${modoManual?'selected':''}>✏️ Escribir manualmente...</option>
-      </select>
-      <input type="text" id="nombre-manual-${t.id}" placeholder="Nombre del trabajador" value="${escHtml(modoManual?t.nombre:'')}"
-        oninput="updateNombre(${t.id},this.value)"
-        style="margin-top:var(--space-2);display:${modoManual?'block':'none'}">`
-    : `<input type="text" placeholder="Ej: Juan Pérez" value="${escHtml(t.nombre)}" oninput="updateNombre(${t.id},this.value)">
-       <small style="color:var(--color-text-muted);font-size:var(--text-xs);margin-top:4px">Ve a <strong>Nómina de cuadrilla</strong> para agregar trabajadores.</small>`;
-
-  const cargoSelect = `
-    <select id="cargo-select-${t.id}"
-      onchange="updateField(${t.id},'cargo',this.value);updateField(${t.id},'cargoDesdeNomina',false);ocultarHintCargo(${t.id})"
-      ${t.cargoDesdeNomina ? 'style="pointer-events:none;opacity:0.7;border-color:var(--color-success)"' : ''}>
-      <option value="">— Seleccionar cargo —</option>
-      ${CARGOS.map(c=>`<option value="${c}" ${t.cargo===c?'selected':''}>${c}</option>`).join('')}
-    </select>
-    <div class="cargo-autocompletado ${t.cargoDesdeNomina?'visible':''}" id="cargo-auto-hint-${t.id}">
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-      Completado desde nómina
-      <button type="button" onclick="habilitarCargoBloqueado(${t.id})"
-        style="margin-left:auto;font-size:10px;color:var(--color-text-muted);background:none;border:none;cursor:pointer;text-decoration:underline"
-        title="Editar manualmente">cambiar</button>
-    </div>`;
-
-  // Chips inline de partidas — sin dropdown flotante
-  const partidasChipsHTML = CATEGORIAS_ITEMIZADO.map(cat => {
-    const sel = t.categorias.includes(cat);
-    return `<button type="button" class="partida-opcion${sel?' selected':''}" onclick="togglePartidaChip(${t.id},'${escHtml(cat)}',this)">
-      <svg class="partida-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-      ${escHtml(cat)}
-    </button>`;
-  }).join('');
-
-  const resumenPartidas = t.categorias.length
-    ? `<span style="color:var(--color-primary);font-weight:600">${t.categorias.length} seleccionada${t.categorias.length>1?'s':''}</span> — ${t.categorias.join(', ')}`
-    : '<span style="color:var(--color-text-faint)">Ninguna seleccionada</span>';
-
-  return `
-  <div class="trabajador-card" id="card-${t.id}">
-    <div class="trabajador-header" onclick="toggleCard(${t.id})">
-      <div class="trabajador-num">${num}</div>
-      <span class="trabajador-nombre-preview" id="preview-${t.id}">${preview}</span>
-      <span class="trabajador-estado-badge ${est.cls}" id="badge-${t.id}">${est.txt}</span>
-      <button class="btn btn-danger btn-icon btn-sm" onclick="event.stopPropagation();eliminarTrabajador(${t.id})" title="Eliminar" style="margin-left:var(--space-2)">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
-      </button>
-    </div>
-    <div class="trabajador-body" id="body-${t.id}">
-      <div class="field">
-        <label>Nombre del trabajador</label>
-        ${nombreSelect}
-      </div>
-      <div class="field">
-        <label>Cargo</label>
-        ${cargoSelect}
-      </div>
-      <div class="field full">
-        <label>Estado del día</label>
-        <div class="estado-opciones">
-          <label class="estado-opcion ${t.estado==='asiste'?'selected-asiste':''}" onclick="seleccionarEstado(${t.id},'asiste',this)">
-            <input type="radio" name="estado-${t.id}" value="asiste" ${t.estado==='asiste'?'checked':''}>
-            <span class="estado-dot"></span> Trabaja interior / bodega
-          </label>
-          <label class="estado-opcion ${t.estado==='faena'?'selected-faena':''}" onclick="seleccionarEstado(${t.id},'faena',this)">
-            <input type="radio" name="estado-${t.id}" value="faena" ${t.estado==='faena'?'checked':''}>
-            <span class="estado-dot"></span> Faena exterior / otro frente
-          </label>
-          <label class="estado-opcion ${t.estado==='ambos'?'selected-ambos':''}" onclick="seleccionarEstado(${t.id},'ambos',this)">
-            <input type="radio" name="estado-${t.id}" value="ambos" ${t.estado==='ambos'?'checked':''}>
-            <span class="estado-dot"></span> Ambos
-          </label>
-          <label class="estado-opcion ${t.estado==='noasiste'?'selected-noasiste':''}" onclick="seleccionarEstado(${t.id},'noasiste',this)">
-            <input type="radio" name="estado-${t.id}" value="noasiste" ${t.estado==='noasiste'?'checked':''}>
-            <span class="estado-dot"></span> No asiste hoy
-          </label>
-        </div>
-      </div>
-      <div class="field full detalle-campo ${oculto}" id="bodegas-field-${t.id}">
-        <label>N° de bodegas trabajadas (Enter o coma para agregar)</label>
-        <div class="bodegas-input" id="chips-container-${t.id}">
-          ${t.bodegas.map(b=>buildChip(t.id,b)).join('')}
-          <input type="text" id="bodegas-input-${t.id}" placeholder="Ej: 69">
-        </div>
-      </div>
-      <div class="field full detalle-campo ${oculto}" id="desc-field-${t.id}">
-        <label>Descripción del trabajo realizado</label>
-        <textarea placeholder="Detalle: sellante de juntas en bodegas 69-70, 2 manos de pintura en hall…" oninput="updateDescripcion(${t.id},this.value)">${escHtml(t.descripcion)}</textarea>
-      </div>
-      <div class="field full detalle-campo ${oculto}" id="categorias-field-${t.id}">
-        <label>Partidas del itemizado trabajadas</label>
-        <div class="partidas-chips-wrap" id="partidas-chips-${t.id}">
-          ${partidasChipsHTML}
-        </div>
-        <div class="partidas-resumen" id="partidas-resumen-${t.id}">${resumenPartidas}</div>
-      </div>
-    </div>
-  </div>`;
-}
-
-// ── PARTIDAS CHIPS INLINE ──
-function togglePartidaChip(id, cat, btn){
-  const t = trabajadores.find(w=>w.id===id);
-  if(!t) return;
-  if(t.categorias.includes(cat)){
-    t.categorias = t.categorias.filter(c=>c!==cat);
-    btn.classList.remove('selected');
-  } else {
-    t.categorias.push(cat);
-    btn.classList.add('selected');
-  }
-  const resEl = document.getElementById(`partidas-resumen-${id}`);
-  if(resEl){
-    resEl.innerHTML = t.categorias.length
-      ? `<span style="color:var(--color-primary);font-weight:600">${t.categorias.length} seleccionada${t.categorias.length>1?'s':''}</span> — ${t.categorias.join(', ')}`
-      : '<span style="color:var(--color-text-faint)">Ninguna seleccionada</span>';
-  }
-}
-
-// ── AUTOCOMPLETAR CARGO DESDE NÓMINA ──
-function autocompletarCargo(id, nombre){
-  const t = trabajadores.find(w=>w.id===id);
-  if(!t) return;
-  const manualInput = document.getElementById(`nombre-manual-${id}`);
-  const cargoSel = document.getElementById(`cargo-select-${id}`);
-  const hint = document.getElementById(`cargo-auto-hint-${id}`);
-  if(nombre === '__otro__'){
-    if(manualInput) manualInput.style.display = 'block';
-    t.nombre = '';
-    t.cargo = '';
-    t.cargoDesdeNomina = false;
-    if(cargoSel){
-      cargoSel.value = '';
-      cargoSel.style.pointerEvents = '';
-      cargoSel.style.opacity = '';
-      cargoSel.style.borderColor = '';
-    }
-    if(hint) hint.classList.remove('visible');
-    document.getElementById(`preview-${id}`).textContent = 'Trabajador';
-    return;
-  }
-  if(manualInput) manualInput.style.display = 'none';
-  t.nombre = nombre;
-  document.getElementById(`preview-${id}`).textContent = nombre || 'Trabajador';
-  const entry = nominaCuadrilla.find(w => w.nombre === nombre);
-  if(entry && entry.cargo){
-    t.cargo = entry.cargo;
-    t.cargoDesdeNomina = true;
-    if(cargoSel){
-      cargoSel.value = entry.cargo;
-      cargoSel.style.pointerEvents = 'none';
-      cargoSel.style.opacity = '0.7';
-      cargoSel.style.borderColor = 'var(--color-success)';
-    }
-    if(hint) hint.classList.add('visible');
-  } else {
-    t.cargoDesdeNomina = false;
-    if(cargoSel){
-      cargoSel.style.pointerEvents = '';
-      cargoSel.style.opacity = '';
-      cargoSel.style.borderColor = '';
-    }
-    if(hint) hint.classList.remove('visible');
-  }
-}
-
-function habilitarCargoBloqueado(id){
-  const t = trabajadores.find(w=>w.id===id);
-  if(!t) return;
-  t.cargoDesdeNomina = false;
-  const cargoSel = document.getElementById(`cargo-select-${id}`);
-  const hint = document.getElementById(`cargo-auto-hint-${id}`);
-  if(cargoSel){
-    cargoSel.style.pointerEvents = '';
-    cargoSel.style.opacity = '';
-    cargoSel.style.borderColor = '';
-    cargoSel.focus();
-  }
-  if(hint) hint.classList.remove('visible');
-}
-function ocultarHintCargo(id){
-  const hint = document.getElementById(`cargo-auto-hint-${id}`);
-  if(hint) hint.classList.remove('visible');
-}
-
-// ── BODEGAS CHIPS ──
-function buildChip(id,val){
-  return `<span class="chip">${val}<button class="chip-remove" onclick="removeChip(${id},'${val}')" type="button">×</button></span>`;
-}
-function initBodegasChip(id){
-  const input=document.getElementById(`bodegas-input-${id}`);
-  if(!input)return;
-  input.addEventListener('keydown',function(e){
-    if(e.key==='Enter'||e.key===','){e.preventDefault();const val=this.value.trim().replace(',','');if(val)addBodega(id,val);this.value='';}
-  });
-  const cont=document.getElementById(`chips-container-${id}`);
-  if(cont)cont.addEventListener('click',()=>input.focus());
-}
-function addBodega(id,val){
-  const t=trabajadores.find(w=>w.id===id);
-  if(t&&!t.bodegas.includes(val)){
-    t.bodegas.push(val);
-    const cont=document.getElementById(`chips-container-${id}`);
-    const inp=document.getElementById(`bodegas-input-${id}`);
-    if(cont&&inp){const chip=document.createElement('span');chip.className='chip';chip.innerHTML=`${val}<button class="chip-remove" onclick="removeChip(${id},'${val}')" type="button">×</button>`;cont.insertBefore(chip,inp);}
-  }
-}
-function removeChip(id,val){
-  const t=trabajadores.find(w=>w.id===id);
-  if(t)t.bodegas=t.bodegas.filter(b=>b!==val);
+  trabajadores = trabajadores.filter(t=>t.id!==id);
   renderTrabajadores();
 }
 
-function toggleCard(id){document.getElementById(`body-${id}`).classList.toggle('hidden');}
-function updateNombre(id,val){
-  const t=trabajadores.find(w=>w.id===id);
-  if(t){t.nombre=val;document.getElementById(`preview-${id}`).textContent=val||'Trabajador';}
-}
-function updateField(id,campo,val){
-  const t=trabajadores.find(w=>w.id===id);
-  if(t)t[campo]=val;
-}
-function updateDescripcion(id,val){
-  const t=trabajadores.find(w=>w.id===id);
-  if(t)t.descripcion=val;
-}
-function seleccionarEstado(id,val,label){
-  const t=trabajadores.find(w=>w.id===id);
+function toggleCard(id){
+  const t=trabajadores.find(t=>t.id===id);
   if(!t)return;
-  t.estado=val;
-  document.querySelectorAll(`#card-${id} .estado-opcion`).forEach(l=>l.classList.remove('selected-asiste','selected-faena','selected-ambos','selected-noasiste'));
-  if(val==='asiste')label.classList.add('selected-asiste');
-  else if(val==='faena')label.classList.add('selected-faena');
-  else if(val==='ambos')label.classList.add('selected-ambos');
-  else label.classList.add('selected-noasiste');
-  const estadoMap={asiste:{cls:'badge-asiste',txt:'Interior / Bodega'},faena:{cls:'badge-faena',txt:'Faena exterior'},ambos:{cls:'badge-ambos',txt:'Ambos frentes'},noasiste:{cls:'badge-noasiste',txt:'No asiste'}};
-  const est=estadoMap[val]||{cls:'badge-default',txt:'Sin estado'};
-  const badgeEl=document.getElementById(`badge-${id}`);
-  if(badgeEl){badgeEl.className='trabajador-estado-badge '+est.cls;badgeEl.textContent=est.txt;}
-  [`bodegas-field-${id}`,`categorias-field-${id}`,`desc-field-${id}`].forEach(cid=>{
-    const el=document.getElementById(cid);
-    if(el)el.classList.toggle('oculto',val==='noasiste');
-  });
+  t.open=t.open===false?true:false;
+  const body=document.getElementById('tbody-'+id);
+  if(body) body.classList.toggle('hidden',!t.open);
 }
 
+function updateTrabajador(id,key,val){
+  const t=trabajadores.find(t=>t.id===id);
+  if(t){ t[key]=val; }
+  if(key==='nombre'){
+    const card=document.querySelector(`#tc-${id} .trabajador-nombre-preview`);
+    if(card) card.textContent=val||'Trabajador sin nombre';
+  }
+}
+
+function setEstado(id,estado,container){
+  const t=trabajadores.find(t=>t.id===id);
+  if(!t) return;
+  t.estado=estado;
+  container.querySelectorAll('.estado-opcion').forEach(el=>{
+    el.classList.remove('selected-asiste','selected-faena','selected-ambos','selected-noasiste');
+  });
+  const clsMap={asiste:'selected-asiste',faena:'selected-faena',ambos:'selected-ambos',noasiste:'selected-noasiste'};
+  const clicked=container.querySelector(`.estado-opcion input[value="${estado}"]`);
+  if(clicked) clicked.closest('.estado-opcion').classList.add(clsMap[estado]);
+  ['det','det2','det3'].forEach(pre=>{
+    const el=document.getElementById(`${pre}-${id}`);
+    if(el){ if(estado&&estado!=='noasiste') el.classList.remove('oculto'); else el.classList.add('oculto'); }
+  });
+  const badgeClass={asiste:'badge-asiste',faena:'badge-faena',ambos:'badge-ambos',noasiste:'badge-noasiste'}[estado]||'badge-default';
+  const badgeLabel={asiste:'Asiste',faena:'Faena ext.',ambos:'Asiste+Faena',noasiste:'No asiste'}[estado]||'Sin estado';
+  let badge=document.querySelector(`#tc-${id} .trabajador-estado-badge`);
+  if(!badge){
+    badge=document.createElement('span');
+    badge.className='trabajador-estado-badge';
+    const hdr=document.querySelector(`#tc-${id} .trabajador-header`);
+    if(hdr){ const svgEl=hdr.querySelector('svg'); hdr.insertBefore(badge,svgEl); }
+  }
+  badge.className='trabajador-estado-badge '+badgeClass;
+  badge.textContent=badgeLabel;
+}
+
+function togglePartida(id,partida,el){
+  const t=trabajadores.find(t=>t.id===id);
+  if(!t) return;
+  t.partidas=t.partidas||[];
+  if(t.partidas.includes(partida)){
+    t.partidas=t.partidas.filter(p=>p!==partida);
+    el.classList.remove('selected');
+  } else {
+    t.partidas.push(partida);
+    el.classList.add('selected');
+  }
+  const res=document.getElementById('presumen-'+id);
+  if(res) res.textContent=t.partidas.length?t.partidas.length+' partida(s) seleccionada(s)':'';
+}
+
+function handleBodegaKey(e,id){
+  if(e.key==='Enter'||e.key===','||e.key===';'){
+    e.preventDefault();
+    const val=e.target.value.trim();
+    if(val) addBodega(id,val,e.target);
+  }
+}
+
+function addBodega(id,val,input){
+  const t=trabajadores.find(t=>t.id===id);
+  if(!t) return;
+  t.bodegas=t.bodegas||[];
+  val.split(/[,\s]+/).forEach(v=>{ v=v.trim(); if(v&&!t.bodegas.includes(v)) t.bodegas.push(v); });
+  if(input) input.value='';
+  const wrap=document.getElementById('bodegas-input-'+id);
+  if(wrap){
+    wrap.querySelectorAll('.chip').forEach(c=>c.remove());
+    t.bodegas.forEach(b=>{
+      const chip=document.createElement('span');
+      chip.className='chip';
+      chip.innerHTML=`${escHtml(b)}<button class="chip-remove" onclick="removeBodega(${id},'${escHtml(b)}')"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>`;
+      wrap.insertBefore(chip,input||wrap.lastElementChild);
+    });
+  }
+}
+
+function removeBodega(id,val){
+  const t=trabajadores.find(t=>t.id===id);
+  if(!t) return;
+  t.bodegas=(t.bodegas||[]).filter(b=>b!==val);
+  const wrap=document.getElementById('bodegas-input-'+id);
+  if(wrap){
+    wrap.querySelectorAll('.chip').forEach(c=>c.remove());
+    const inp=wrap.querySelector('input');
+    t.bodegas.forEach(b=>{
+      const chip=document.createElement('span');
+      chip.className='chip';
+      chip.innerHTML=`${escHtml(b)}<button class="chip-remove" onclick="removeBodega(${id},'${escHtml(b)}')"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>`;
+      wrap.insertBefore(chip,inp||null);
+    });
+  }
+}
+
+// ── GENERAR INFORME ──
 function generarInforme(){
-  if(trabajadores.length===0){showToast('Agrega al menos un trabajador');return;}
-  const fecha=document.getElementById('fechaInput').value;
-  const obs=document.getElementById('obsGenerales').value||'—';
-  const estadoTexto={asiste:'Interior/Bodega',faena:'Faena exterior',ambos:'Ambos',noasiste:'No asiste'};
-  const headers=['Fecha','N°','Nombre','Cargo','Estado','Bodegas','Partidas Itemizado','Descripción'];
-  const rows=trabajadores.map((t,i)=>[
-    fecha,i+1,
-    t.nombre||'—',t.cargo||'—',
-    estadoTexto[t.estado]||t.estado,
-    t.bodegas.join(', ')||'—',
-    t.categorias.join(' | ')||'—',
-    t.descripcion||'—'
+  if(!trabajadores.length){ showToast('Agrega al menos un trabajador'); return; }
+  const fecha = document.getElementById('fechaInput').value;
+  const obs = document.getElementById('obsGenerales').value;
+  const cols = ['Fecha','Nombre','Cargo','Estado','Partidas Itemizado','Bodegas / Ubicaciones','Observación'];
+  const rows = trabajadores.map(t => [
+    fecha,
+    t.nombre||'',
+    t.cargo||'',
+    {asiste:'Asiste',faena:'Faena externa',ambos:'Asiste + Faena',noasiste:'No asiste'}[t.estado]||'',
+    (t.partidas||[]).join(' | '),
+    (t.bodegas||[]).join(', '),
+    t.obs||''
   ]);
-  const table=document.getElementById('outputTable');
-  table.innerHTML=`<thead><tr>${headers.map(h=>`<th>${h}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('')}</tbody>`;
-  const presente=trabajadores.filter(t=>t.estado!=='noasiste').length;
-  const ausente=trabajadores.filter(t=>t.estado==='noasiste').length;
-  document.getElementById('resumenTexto').textContent=`Total: ${trabajadores.length} · Presentes: ${presente} · Ausentes: ${ausente}`;
-  const area=document.getElementById('outputArea');
+  if(obs) rows.push([fecha,'—','—','—','—','—','OBS GENERAL: '+obs]);
+  const table = document.getElementById('outputTable');
+  table.innerHTML='<thead><tr>'+cols.map(c=>`<th>${escHtml(c)}</th>`).join('')+'</tr></thead><tbody>'+
+    rows.map(r=>'<tr>'+r.map(c=>`<td>${escHtml(c)}</td>`).join('')+'</tr>').join('')+'</tbody>';
+  const area = document.getElementById('outputArea');
   area.classList.remove('hidden');
   area.scrollIntoView({behavior:'smooth',block:'start'});
-  showToast('Informe generado ✓');
-  window._exportData={headers,rows,fecha,obs};
+  const asistentes = trabajadores.filter(t=>t.estado&&t.estado!=='noasiste').length;
+  document.getElementById('resumenTexto').textContent =
+    `Informe ${fecha} · ${trabajadores.length} trabajador(es) registrado(s) · ${asistentes} presente(s)`;
+  showToast('✓ Informe generado');
 }
-function copiarCSV(){
-  if(!window._exportData){showToast('Primero genera el informe');return;}
-  const{headers,rows}=window._exportData;
-  const csv=[headers,...rows].map(r=>r.map(c=>`"${String(c).replace(/"/g,'""')}"`).join(',')).join('\n');
-  navigator.clipboard.writeText(csv).then(()=>showToast('CSV copiado ✓'));
-}
-function exportarJSON(){
-  if(!window._exportData){showToast('Primero genera el informe');return;}
-  const{headers,rows,fecha,obs}=window._exportData;
-  const data={fecha,observaciones:obs,registros:rows.map(r=>Object.fromEntries(headers.map((h,i)=>[h,r[i]])))};
-  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
-  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`informe-cuadrillas-${fecha}.json`;a.click();
-  showToast('JSON descargado ✓');
-}
+
 function limpiarFormulario(){
-  if(!confirm('¿Limpiar todo el formulario?'))return;
-  trabajadores=[];contadorId=0;renderTrabajadores();
+  if(trabajadores.length && !confirm('¿Limpiar todos los registros del día?')) return;
+  trabajadores=[];contadorId=0;
+  renderTrabajadores();
   document.getElementById('obsGenerales').value='';
   document.getElementById('outputArea').classList.add('hidden');
   document.getElementById('fechaInput').value=new Date().toISOString().slice(0,10);
   showToast('Formulario limpiado');
 }
+
+function copiarCSV(){
+  const table=document.getElementById('outputTable');
+  if(!table.rows.length){showToast('No hay tabla generada');return;}
+  const lines=[];
+  for(const row of table.rows) lines.push([...row.cells].map(c=>'"'+c.textContent.replace(/"/g,'""')+'"').join(','));
+  navigator.clipboard.writeText(lines.join('\n')).then(()=>showToast('✓ CSV copiado al portapapeles')).catch(()=>showToast('Error al copiar'));
+}
+
+function exportarJSON(){
+  const datos=trabajadores.map(t=>({
+    fecha:document.getElementById('fechaInput').value,
+    nombre:t.nombre,cargo:t.cargo,estado:t.estado,
+    partidas:t.partidas,bodegas:t.bodegas,observacion:t.obs
+  }));
+  const blob=new Blob([JSON.stringify(datos,null,2)],{type:'application/json'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='informe-'+document.getElementById('fechaInput').value+'.json';
+  a.click();
+  showToast('✓ JSON descargado');
+}
+
+// ── PARSEAR INFORME SUPERVISOR ──
+function parsearInforme(){
+  const texto=document.getElementById('informeTexto').value.trim();
+  if(!texto){showToast('Pega el texto del informe primero');return;}
+  const partidas=detectarPartidas(texto);
+  const bodegas=detectarBodegas(texto);
+  const lineas=texto.split(/[.\n]/g).filter(l=>l.trim().length>10);
+  const result=document.getElementById('parseResult');
+  let html=`<div class="parse-result-title">✓ Informe estructurado</div>`;
+  html+=`<div class="parse-row"><span class="parse-row-key">Texto original</span><span class="parse-row-val" style="font-style:italic;color:var(--color-text-muted)">${escHtml(texto.slice(0,200))}${texto.length>200?'…':''}</span></div>`;
+  html+=`<div class="parse-row"><span class="parse-row-key">Partidas detectadas</span><span class="parse-row-val">${partidas.length?partidas.map(p=>`<span class="partida-tag">${escHtml(p)}</span>`).join(''):'<em style="color:var(--color-text-faint)">Ninguna detectada</em>'}</span></div>`;
+  html+=`<div class="parse-row"><span class="parse-row-key">Bodegas / ubic.</span><span class="parse-row-val">${bodegas.length?bodegas.map(b=>`<span class="partida-tag">Bodega ${escHtml(b)}</span>`).join(''):'<em style="color:var(--color-text-faint)">No detectadas</em>'}</span></div>`;
+  html+=`<div class="parse-row"><span class="parse-row-key">Actividades</span><span class="parse-row-val"><ul style="list-style:disc;padding-left:1.2em;font-size:var(--text-xs);">${lineas.map(l=>`<li>${escHtml(l.trim())}</li>`).join('')}</ul></span></div>`;
+  html+=`<div style="margin-top:var(--space-3)"><button class="btn btn-primary btn-sm" onclick="aplicarInformeARegistro()">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 11 12 14 22 4"/></svg>
+    Crear registro con estos datos
+  </button></div>`;
+  result.innerHTML=html;
+  result.classList.add('visible');
+}
+
+function aplicarInformeARegistro(){
+  const texto=document.getElementById('informeTexto').value.trim();
+  const partidas=detectarPartidas(texto);
+  const bodegas=detectarBodegas(texto);
+  const id=++contadorId;
+  trabajadores.push({id,nombre:'',cargo:'',estado:'asiste',partidas,bodegas,obs:texto.slice(0,200),open:true});
+  showTab('manual',document.querySelector('.tab-btn'));
+  renderTrabajadores();
+  setTimeout(()=>{ const inp=document.querySelector(`#tbody-${id} input[type="text"]`); if(inp) inp.focus(); },80);
+  showToast('✓ Registro creado con datos del informe');
+}
+
+// ── TOAST ──
 function showToast(msg){
   const t=document.getElementById('toast');
   t.textContent=msg;t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),2500);
+  setTimeout(()=>t.classList.remove('show'),2800);
 }
-function escHtml(str){
-  return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-renderTrabajadores();
 </script>
 </body>
 </html>
