@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <style>
 :root,[data-theme="light"]{
   --color-bg:#f7f6f2;--color-surface:#f9f8f5;--color-surface-2:#fbfbf9;
@@ -20,6 +21,7 @@
   --color-error:#a12c7b;--color-error-highlight:#e0ced7;
   --color-warning:#964219;--color-warning-highlight:#ddcfc6;
   --color-orange:#da7101;--color-orange-highlight:#f5dfc7;
+  --color-whatsapp:#25d366;--color-whatsapp-hover:#1da851;
   --radius-sm:0.375rem;--radius-md:0.5rem;--radius-lg:0.75rem;--radius-xl:1rem;--radius-full:9999px;
   --shadow-sm:0 1px 2px oklch(0.2 0.01 80/0.06);--shadow-md:0 4px 12px oklch(0.2 0.01 80/0.08);--shadow-lg:0 12px 32px oklch(0.2 0.01 80/0.12);
   --transition-interactive:180ms cubic-bezier(0.16,1,0.3,1);
@@ -40,6 +42,7 @@
   --color-error:#d163a7;--color-error-highlight:#4c3d46;
   --color-warning:#bb653b;--color-warning-highlight:#564942;
   --color-orange:#fdab43;--color-orange-highlight:#4a3a28;
+  --color-whatsapp:#25d366;--color-whatsapp-hover:#1da851;
   --shadow-sm:0 1px 2px oklch(0 0 0/0.2);--shadow-md:0 4px 12px oklch(0 0 0/0.3);--shadow-lg:0 12px 32px oklch(0 0 0/0.4);
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -193,9 +196,16 @@ a,button,[role="button"],input,select,textarea{transition:color var(--transition
 .btn-secondary:hover{background:var(--color-surface-offset);border-color:var(--color-primary)}
 .btn-danger{background:transparent;color:var(--color-error);border:1.5px solid var(--color-error-highlight)}
 .btn-danger:hover{background:var(--color-error-highlight)}
+.btn-whatsapp{background:var(--color-whatsapp);color:#fff;border:1.5px solid var(--color-whatsapp)}
+.btn-whatsapp:hover{background:var(--color-whatsapp-hover);border-color:var(--color-whatsapp-hover)}
 .btn-sm{padding:var(--space-1) var(--space-3);font-size:var(--text-xs)}
 .btn-icon{width:32px;height:32px;padding:0;justify-content:center;border-radius:var(--radius-md)}
 .bottom-actions{display:flex;gap:var(--space-3);flex-wrap:wrap;margin-top:var(--space-8);padding-top:var(--space-6);border-top:1px solid var(--color-divider)}
+
+/* BOTÓN AGREGAR MEDIO (entre lista y observaciones) */
+.add-mid-btn-wrap{display:flex;justify-content:center;margin:var(--space-2) 0 var(--space-6)}
+.add-mid-btn{display:inline-flex;align-items:center;gap:var(--space-2);padding:var(--space-2) var(--space-6);border:2px dashed var(--color-border);border-radius:var(--radius-lg);font-size:var(--text-sm);font-weight:600;color:var(--color-text-muted);background:transparent;cursor:pointer;transition:all var(--transition-interactive)}
+.add-mid-btn:hover{border-color:var(--color-primary);color:var(--color-primary);background:var(--color-primary-highlight)}
 
 /* OUTPUT */
 .output-area.hidden{display:none}
@@ -207,6 +217,11 @@ a,button,[role="button"],input,select,textarea{transition:color var(--transition
 .data-table tr:hover td{background:var(--color-surface-offset)}
 .copy-btn{display:inline-flex;align-items:center;gap:var(--space-2);padding:var(--space-2) var(--space-3);border-radius:var(--radius-md);font-size:var(--text-xs);font-weight:600;background:var(--color-surface-offset);border:1px solid var(--color-border);cursor:pointer;color:var(--color-text-muted)}
 .copy-btn:hover{background:var(--color-primary-highlight);color:var(--color-primary)}
+
+/* PDF SHARE PANEL */
+.pdf-share-panel{display:none;margin-top:var(--space-4);padding:var(--space-4) var(--space-5);background:var(--color-success-highlight);border:1px solid var(--color-success);border-radius:var(--radius-lg);gap:var(--space-3);align-items:center;flex-wrap:wrap}
+.pdf-share-panel.visible{display:flex}
+.pdf-share-panel p{font-size:var(--text-sm);font-weight:600;color:var(--color-success);flex:1;min-width:200px}
 
 /* TOAST */
 .toast{position:fixed;bottom:var(--space-6);right:var(--space-6);background:var(--color-primary);color:var(--color-text-inverse);padding:var(--space-3) var(--space-6);border-radius:var(--radius-full);font-size:var(--text-sm);font-weight:600;box-shadow:var(--shadow-lg);opacity:0;transform:translateY(12px);transition:all 0.3s ease;pointer-events:none;z-index:999}
@@ -322,6 +337,14 @@ a,button,[role="button"],input,select,textarea{transition:color var(--transition
       </div>
     </div>
 
+    <!-- BOTÓN AGREGAR TRABAJADOR (medio) — aparece cuando hay al menos 1 trabajador -->
+    <div class="add-mid-btn-wrap" id="addMidWrap" style="display:none">
+      <button class="add-mid-btn" onclick="agregarTrabajadorMid()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Agregar otro trabajador
+      </button>
+    </div>
+
     <div class="section-block">
       <div class="section-header">
         <div class="section-title">
@@ -393,8 +416,30 @@ a,button,[role="button"],input,select,textarea{transition:color var(--transition
           <table class="data-table" id="outputTable"></table>
         </div>
       </div>
-      <div style="padding:var(--space-4) var(--space-6);border-top:1px solid var(--color-divider);font-size:var(--text-xs);color:var(--color-text-muted)">
-        <strong id="resumenTexto"></strong>
+      <div style="padding:var(--space-4) var(--space-6);border-top:1px solid var(--color-divider)">
+        <div style="font-size:var(--text-xs);color:var(--color-text-muted);margin-bottom:var(--space-4)">
+          <strong id="resumenTexto"></strong>
+        </div>
+        <!-- BOTONES GENERAR PDF + COMPARTIR -->
+        <div style="display:flex;gap:var(--space-3);flex-wrap:wrap;align-items:center">
+          <button class="btn btn-primary" onclick="generarPDF()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="12" y2="18"/><line x1="15" y1="15" x2="12" y2="18"/></svg>
+            Generar PDF
+          </button>
+        </div>
+        <!-- PANEL QUE APARECE TRAS GENERAR PDF -->
+        <div class="pdf-share-panel" id="pdfSharePanel">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-success)" stroke-width="2" style="flex-shrink:0"><polyline points="20 6 9 17 4 12"/></svg>
+          <p>✓ PDF generado y descargado. ¿Compartir por WhatsApp?</p>
+          <button class="btn btn-whatsapp btn-sm" onclick="compartirWhatsApp()">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Compartir por WhatsApp
+          </button>
+          <button class="btn btn-secondary btn-sm" onclick="compartirNativo()" id="btnCompartirNativo" style="display:none">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+            Compartir (sistema)
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -427,7 +472,6 @@ const DICCIONARIO_PARTIDAS = [
 const CATEGORIAS_ITEMIZADO = DICCIONARIO_PARTIDAS.map(p => p.nombre);
 const CARGOS = ["Bodegero","Encargada prevencion de riesgos","Encargado de obra","Gasfiter","Ingeniero de obra","Jornal","Jornal de Aseo","Maestro Albañil","Maestro Carpinteria Aluminio","Maestro Carpintero","Maestro Chapero","Maestro Soldador","Supervisor Soldador","Trazador"];
 
-// ── NÓMINA FIJA HARDCODEADA ──
 const nominaCuadrilla = [
   {nombre: "Daniel Ortega", cargo: "Maestro Soldador"},
   {nombre: "Alan Fuentes L.", cargo: "Maestro Soldador"},
@@ -458,6 +502,8 @@ const nominaCuadrilla = [
 
 let trabajadores = [];
 let contadorId = 0;
+let ultimoPdfBlob = null;
+let ultimoPdfNombre = '';
 
 document.getElementById('fechaInput').value = new Date().toISOString().slice(0,10);
 renderNominaVista();
@@ -483,7 +529,6 @@ function showTab(id, btn){
   btn.classList.add('active');
 }
 
-// ── RENDER NÓMINA SOLO LECTURA ──
 function renderNominaVista(){
   const tbody = document.getElementById('nominaViewBody');
   const count = document.getElementById('nominaCount');
@@ -507,9 +552,8 @@ function detectarPartidas(texto){
   const norm = texto.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
   const encontradas = [];
   DICCIONARIO_PARTIDAS.forEach(p => {
-    if(p.claves.some(c => norm.includes(c.normalize('NFD').replace(/[\u0300-\u036f]/g,'')))){
+    if(p.claves.some(c => norm.includes(c.normalize('NFD').replace(/[\u0300-\u036f]/g,''))))
       encontradas.push(p.nombre);
-    }
   });
   return encontradas;
 }
@@ -517,10 +561,7 @@ function detectarPartidas(texto){
 function detectarBodegas(texto){
   const matches = texto.match(/bodega[s]?\s*([\d\s,y\-]+)/gi) || [];
   const nums = [];
-  matches.forEach(m => {
-    const n = m.match(/\d+/g);
-    if(n) nums.push(...n);
-  });
+  matches.forEach(m => { const n = m.match(/\d+/g); if(n) nums.push(...n); });
   return [...new Set(nums)];
 }
 
@@ -528,10 +569,17 @@ function detectarBodegas(texto){
 function renderTrabajadores(){
   const list = document.getElementById('trabajadoresList');
   const empty = document.getElementById('emptyWorkers');
+  const midWrap = document.getElementById('addMidWrap');
   if(!list) return;
   list.innerHTML = '';
-  if(trabajadores.length === 0){ if(empty) empty.style.display=''; return; }
+  if(trabajadores.length === 0){
+    if(empty) empty.style.display='';
+    if(midWrap) midWrap.style.display='none';
+    return;
+  }
   if(empty) empty.style.display='none';
+  if(midWrap) midWrap.style.display='flex';
+
   trabajadores.forEach((t,i) => {
     const card = document.createElement('div');
     card.className='trabajador-card';
@@ -554,7 +602,6 @@ function renderTrabajadores(){
         </button>
       </span>`).join('');
 
-    // Autocomplete options
     const datalistId = 'dl-'+t.id;
     const datalistOpts = nominaCuadrilla.map(w=>`<option value="${escHtml(w.nombre)}">`).join('');
 
@@ -586,7 +633,7 @@ function renderTrabajadores(){
         <div class="field full">
           <label>Sector de trabajo</label>
           <div class="estado-opciones">
-            ${['asiste','faena','ambos','noasiste'].map((e,_)=>{
+            ${['asiste','faena','ambos','noasiste'].map((e)=>{
               const labels={asiste:'MÓDULOS',faena:'Obras exteriores/urbanización',ambos:'MÓDULOS + Obras exteriores/urbanización',noasiste:'No asiste'};
               const selClass={asiste:'selected-asiste',faena:'selected-faena',ambos:'selected-ambos',noasiste:'selected-noasiste'}[e];
               return `<label class="estado-opcion${t.estado===e?' '+selClass:''}" onclick="setEstado(${t.id},'${e}',this.parentElement)">
@@ -643,6 +690,15 @@ function agregarTrabajador(){
   trabajadores.push({id,nombre:'',cargo:'',estado:'',partidas:[],bodegas:[],obs:'',open:true});
   renderTrabajadores();
   setTimeout(()=>{ const inp=document.querySelector(`#tbody-${id} input[type="text"]`); if(inp) inp.focus(); },50);
+}
+
+function agregarTrabajadorMid(){
+  agregarTrabajador();
+  // Hacer scroll al nuevo trabajador sin ir al fondo del todo
+  setTimeout(()=>{
+    const cards = document.querySelectorAll('.trabajador-card');
+    if(cards.length) cards[cards.length-1].scrollIntoView({behavior:'smooth',block:'center'});
+  },80);
 }
 
 function eliminarTrabajador(id){
@@ -777,6 +833,9 @@ function generarInforme(){
   const asistentes = trabajadores.filter(t=>t.estado&&t.estado!=='noasiste').length;
   document.getElementById('resumenTexto').textContent =
     `Informe ${fecha} · ${trabajadores.length} trabajador(es) registrado(s) · ${asistentes} presente(s)`;
+  // Ocultar panel PDF al generar nuevo informe
+  document.getElementById('pdfSharePanel').classList.remove('visible');
+  ultimoPdfBlob = null;
   showToast('✓ Informe generado');
 }
 
@@ -787,6 +846,8 @@ function limpiarFormulario(){
   document.getElementById('obsGenerales').value='';
   document.getElementById('outputArea').classList.add('hidden');
   document.getElementById('fechaInput').value=new Date().toISOString().slice(0,10);
+  document.getElementById('pdfSharePanel').classList.remove('visible');
+  ultimoPdfBlob = null;
   showToast('Formulario limpiado');
 }
 
@@ -810,6 +871,124 @@ function exportarJSON(){
   a.download='informe-'+document.getElementById('fechaInput').value+'.json';
   a.click();
   showToast('✓ JSON descargado');
+}
+
+// ── GENERAR PDF ──
+function generarPDF(){
+  const tabla = document.getElementById('outputTable');
+  if(!tabla || !tabla.rows.length){ showToast('Genera el informe primero'); return; }
+  const fecha = document.getElementById('fechaInput').value;
+  const resumen = document.getElementById('resumenTexto').textContent;
+  ultimoPdfNombre = 'Informe-AP-FENIX-'+fecha+'.pdf';
+
+  const contenido = document.createElement('div');
+  contenido.style.cssText = 'font-family:Arial,sans-serif;font-size:11px;padding:20px;color:#28251d;background:#fff';
+  contenido.innerHTML = `
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;border-bottom:2px solid #01696f;padding-bottom:12px">
+      <div style="width:36px;height:36px;background:#01696f;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+        <svg width="22" height="22" viewBox="0 0 36 36" fill="none"><path d="M8 26 L18 10 L28 26" stroke="#f9f8f4" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="18" cy="10" r="2.5" fill="#da7101"/></svg>
+      </div>
+      <div>
+        <div style="font-size:16px;font-weight:700;color:#01696f">AP FENIX — Control Diario</div>
+        <div style="font-size:10px;color:#7a7974;margin-top:2px">Espacio Riesco · ${fecha}</div>
+      </div>
+    </div>
+    <p style="font-size:10px;color:#7a7974;margin-bottom:12px">${escHtml(resumen)}</p>
+    <table style="width:100%;border-collapse:collapse;font-size:9px">
+      <thead>
+        <tr style="background:#f3f0ec">
+          ${[...tabla.rows[0].cells].map(th=>`<th style="padding:6px 8px;text-align:left;border:1px solid #d4d1ca;font-weight:700;color:#7a7974;text-transform:uppercase;font-size:8px;letter-spacing:0.04em">${escHtml(th.textContent)}</th>`).join('')}
+        </tr>
+      </thead>
+      <tbody>
+        ${[...tabla.rows].slice(1).map((tr,i)=>`
+          <tr style="background:${i%2===0?'#fff':'#f9f8f5'}">
+            ${[...tr.cells].map(td=>`<td style="padding:5px 8px;border:1px solid #dcd9d5;vertical-align:top">${escHtml(td.textContent)}</td>`).join('')}
+          </tr>`).join('')}
+      </tbody>
+    </table>
+    <div style="margin-top:16px;font-size:9px;color:#bab9b4;text-align:right">
+      Generado por AP FENIX Control Diario · ${new Date().toLocaleString('es-CL')}
+    </div>`;
+
+  showToast('Generando PDF…');
+
+  html2pdf().set({
+    margin: 10,
+    filename: ultimoPdfNombre,
+    image: { type:'jpeg', quality:0.97 },
+    html2canvas: { scale:2, useCORS:true },
+    jsPDF: { unit:'mm', format:'a4', orientation:'landscape' }
+  }).from(contenido).toPdf().get('pdf').then(function(pdf){
+    ultimoPdfBlob = pdf.output('blob');
+    // También descarga
+    pdf.save(ultimoPdfNombre);
+    // Mostrar panel de compartir
+    const panel = document.getElementById('pdfSharePanel');
+    panel.classList.add('visible');
+    // Mostrar botón compartir nativo si está disponible
+    if(navigator.share && navigator.canShare){
+      document.getElementById('btnCompartirNativo').style.display='inline-flex';
+    }
+    showToast('✓ PDF generado y descargado');
+  }).catch(()=>showToast('Error al generar PDF'));
+}
+
+// ── COMPARTIR WHATSAPP ──
+function compartirWhatsApp(){
+  const fecha = document.getElementById('fechaInput').value;
+  const resumen = document.getElementById('resumenTexto').textContent;
+  const asistentes = trabajadores.filter(t=>t.estado&&t.estado!=='noasiste');
+
+  let msg = `📋 *INFORME DIARIO AP FENIX*\n`;
+  msg += `📅 Fecha: ${fecha}\n`;
+  msg += `👷 ${resumen}\n\n`;
+
+  if(asistentes.length){
+    msg += `*PERSONAL PRESENTE:*\n`;
+    asistentes.forEach(t=>{
+      const sector = {asiste:'MÓDULOS',faena:'Obras ext./Urban.',ambos:'MÓDULOS+Obras ext.'}[t.estado]||'';
+      msg += `• ${t.nombre||'S/N'} (${t.cargo||'S/C'}) — ${sector}`;
+      if(t.bodegas&&t.bodegas.length) msg += ` | Bodegas: ${t.bodegas.join(', ')}`;
+      if(t.partidas&&t.partidas.length) msg += `\n  Partidas: ${t.partidas.join(', ')}`;
+      if(t.obs) msg += `\n  Obs: ${t.obs}`;
+      msg += `\n`;
+    });
+  }
+
+  const noAsiste = trabajadores.filter(t=>t.estado==='noasiste');
+  if(noAsiste.length){
+    msg += `\n*NO ASISTE:* ${noAsiste.map(t=>t.nombre||'S/N').join(', ')}\n`;
+  }
+
+  const obs = document.getElementById('obsGenerales').value;
+  if(obs) msg += `\n📝 *OBS. GENERALES:* ${obs}\n`;
+
+  msg += `\n_Generado por AP FENIX Control Diario_`;
+
+  const encoded = encodeURIComponent(msg);
+  // Detectar si es móvil para usar la app nativa de WhatsApp
+  const esMobil = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+  const url = esMobil
+    ? `whatsapp://send?text=${encoded}`
+    : `https://web.whatsapp.com/send?text=${encoded}`;
+
+  window.open(url, '_blank');
+}
+
+// ── COMPARTIR NATIVO (Web Share API) ──
+function compartirNativo(){
+  if(!ultimoPdfBlob){ showToast('Genera el PDF primero'); return; }
+  const file = new File([ultimoPdfBlob], ultimoPdfNombre, {type:'application/pdf'});
+  if(navigator.share && navigator.canShare && navigator.canShare({files:[file]})){
+    navigator.share({
+      title: 'Informe AP FENIX',
+      text: 'Informe diario de cuadrillas AP FENIX',
+      files: [file]
+    }).then(()=>showToast('✓ Compartido')).catch(()=>showToast('Cancelado'));
+  } else {
+    showToast('Compartir no disponible en este equipo');
+  }
 }
 
 // ── PARSEAR INFORME SUPERVISOR ──
