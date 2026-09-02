@@ -132,7 +132,7 @@ a,button,[role="button"],input,select,textarea{transition:color var(--transition
 .chip-remove:hover{color:var(--color-primary-active)}
 .bodegas-input input[type="text"]{border:none;background:transparent;outline:none;font-size:var(--text-sm);min-width:80px;padding:2px 4px;flex:1}
 
-/* ESTADO */
+/* SECTOR DE TRABAJO */
 .estado-opciones{display:flex;gap:var(--space-3);flex-wrap:wrap}
 .estado-opcion{display:flex;align-items:center;gap:var(--space-2);padding:var(--space-2) var(--space-4);border:1.5px solid var(--color-border);border-radius:var(--radius-full);cursor:pointer;user-select:none;font-size:var(--text-sm);transition:all var(--transition-interactive)}
 .estado-opcion input{display:none}
@@ -538,7 +538,7 @@ function renderTrabajadores(){
     card.id='tc-'+t.id;
 
     const badgeClass = {asiste:'badge-asiste',faena:'badge-faena',ambos:'badge-ambos',noasiste:'badge-noasiste'}[t.estado]||'badge-default';
-    const badgeLabel = {asiste:'Asiste',faena:'Faena ext.',ambos:'Asiste+Faena',noasiste:'No asiste'}[t.estado]||'Sin estado';
+    const badgeLabel = {asiste:'Módulos',faena:'Obras ext./Urban.',ambos:'Módulos+Obras ext.',noasiste:'No asiste'}[t.estado]||'Sin estado';
     const estadoBadge = t.estado?`<span class="trabajador-estado-badge ${badgeClass}">${badgeLabel}</span>`:'';
 
     const opciones = CATEGORIAS_ITEMIZADO.map(c=>`
@@ -584,10 +584,10 @@ function renderTrabajadores(){
           </select>
         </div>
         <div class="field full">
-          <label>Estado del día</label>
+          <label>Sector de trabajo</label>
           <div class="estado-opciones">
             ${['asiste','faena','ambos','noasiste'].map((e,_)=>{
-              const labels={asiste:'Asiste a obra',faena:'Trabaja en faena externa',ambos:'Asiste + Faena',noasiste:'No asiste'};
+              const labels={asiste:'MÓDULOS',faena:'Obras exteriores/urbanización',ambos:'MÓDULOS + Obras exteriores/urbanización',noasiste:'No asiste'};
               const selClass={asiste:'selected-asiste',faena:'selected-faena',ambos:'selected-ambos',noasiste:'selected-noasiste'}[e];
               return `<label class="estado-opcion${t.estado===e?' '+selClass:''}" onclick="setEstado(${t.id},'${e}',this.parentElement)">
                 <input type="radio" name="estado-${t.id}" value="${e}"${t.estado===e?' checked':''}>
@@ -682,7 +682,7 @@ function setEstado(id,estado,container){
     if(el){ if(estado&&estado!=='noasiste') el.classList.remove('oculto'); else el.classList.add('oculto'); }
   });
   const badgeClass={asiste:'badge-asiste',faena:'badge-faena',ambos:'badge-ambos',noasiste:'badge-noasiste'}[estado]||'badge-default';
-  const badgeLabel={asiste:'Asiste',faena:'Faena ext.',ambos:'Asiste+Faena',noasiste:'No asiste'}[estado]||'Sin estado';
+  const badgeLabel={asiste:'Módulos',faena:'Obras ext./Urban.',ambos:'Módulos+Obras ext.',noasiste:'No asiste'}[estado]||'Sin estado';
   let badge=document.querySelector(`#tc-${id} .trabajador-estado-badge`);
   if(!badge){
     badge=document.createElement('span');
@@ -757,12 +757,12 @@ function generarInforme(){
   if(!trabajadores.length){ showToast('Agrega al menos un trabajador'); return; }
   const fecha = document.getElementById('fechaInput').value;
   const obs = document.getElementById('obsGenerales').value;
-  const cols = ['Fecha','Nombre','Cargo','Estado','Partidas Itemizado','Bodegas / Ubicaciones','Observación'];
+  const cols = ['Fecha','Nombre','Cargo','Sector de Trabajo','Partidas Itemizado','Bodegas / Ubicaciones','Observación'];
   const rows = trabajadores.map(t => [
     fecha,
     t.nombre||'',
     t.cargo||'',
-    {asiste:'Asiste',faena:'Faena externa',ambos:'Asiste + Faena',noasiste:'No asiste'}[t.estado]||'',
+    {asiste:'MÓDULOS',faena:'Obras exteriores/urbanización',ambos:'MÓDULOS + Obras exteriores/urbanización',noasiste:'No asiste'}[t.estado]||'',
     (t.partidas||[]).join(' | '),
     (t.bodegas||[]).join(', '),
     t.obs||''
