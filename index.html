@@ -99,13 +99,15 @@ a,button,[role="button"],input,select,textarea{transition:color var(--transition
 .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--color-primary);outline:none;box-shadow:0 0 0 3px var(--color-primary-highlight)}
 .field textarea{resize:vertical;min-height:72px;font-family:var(--font-body)}
 
-/* SELECT PARTIDAS MÚLTIPLE */
-.partidas-select-wrap{position:relative}
-.partidas-select{width:100%;min-height:140px;padding:var(--space-2);border:1px solid var(--color-border);border-radius:var(--radius-md);background:var(--color-bg);font-size:var(--text-sm);color:var(--color-text);cursor:pointer}
-.partidas-select:focus{border-color:var(--color-primary);outline:none;box-shadow:0 0 0 3px var(--color-primary-highlight)}
-.partidas-select option{padding:var(--space-2) var(--space-3);border-radius:var(--radius-sm);margin-bottom:2px}
-.partidas-select option:checked{background:var(--color-primary-highlight);color:var(--color-primary-active);font-weight:600}
-.partidas-hint{font-size:var(--text-xs);color:var(--color-text-muted);margin-top:var(--space-1)}
+/* PARTIDAS DROPDOWN */
+.partidas-dropdown-wrap{position:relative}
+.partidas-dropdown-btn{width:100%;padding:var(--space-2) var(--space-3);border:1px solid var(--color-border);border-radius:var(--radius-md);background:var(--color-bg);font-size:var(--text-sm);color:var(--color-text);text-align:left;display:flex;justify-content:space-between;align-items:center;cursor:pointer}
+.partidas-dropdown-btn:hover{border-color:var(--color-primary)}
+.partidas-dropdown-list{position:absolute;z-index:50;top:calc(100% + 4px);left:0;right:0;background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-md);box-shadow:var(--shadow-md);max-height:220px;overflow-y:auto;display:none}
+.partidas-dropdown-list.open{display:block}
+.partidas-dropdown-item{display:flex;align-items:center;gap:var(--space-2);padding:var(--space-2) var(--space-3);cursor:pointer;font-size:var(--text-sm);color:var(--color-text)}
+.partidas-dropdown-item:hover{background:var(--color-surface-offset)}
+.partidas-dropdown-item input[type="checkbox"]{accent-color:var(--color-primary);width:15px;height:15px;flex-shrink:0;cursor:pointer}
 .partidas-selected-tags{display:flex;flex-wrap:wrap;gap:var(--space-2);margin-top:var(--space-2)}
 .partida-chip{display:inline-flex;align-items:center;gap:4px;background:var(--color-primary-highlight);color:var(--color-primary-active);font-size:var(--text-xs);font-weight:600;padding:3px 10px;border-radius:var(--radius-full)}
 
@@ -128,14 +130,6 @@ a,button,[role="button"],input,select,textarea{transition:color var(--transition
 .estado-dot{width:8px;height:8px;border-radius:var(--radius-full);background:currentColor;flex-shrink:0}
 .detalle-campo.oculto{opacity:0.3;pointer-events:none;filter:grayscale(1)}
 
-/* SUGERENCIAS PANEL */
-.sugerencias-panel{margin-top:var(--space-3);padding:var(--space-3) var(--space-4);background:var(--color-orange-highlight);border:1px solid var(--color-orange);border-radius:var(--radius-md);display:none}
-.sugerencias-panel.visible{display:block}
-.sugerencias-title{font-size:var(--text-xs);font-weight:700;color:var(--color-orange);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:var(--space-2);display:flex;align-items:center;gap:var(--space-2)}
-.sugerencias-chips{display:flex;flex-wrap:wrap;gap:var(--space-2)}
-.sug-chip{font-size:var(--text-xs);font-weight:600;background:var(--color-surface);border:1px solid var(--color-orange);color:var(--color-orange);padding:3px 10px;border-radius:var(--radius-full);cursor:pointer;transition:all var(--transition-interactive)}
-.sug-chip:hover{background:var(--color-orange);color:#fff}
-
 /* INFORME DIARIO TEXTAREA */
 .informe-diario-wrap{position:relative}
 .informe-diario-wrap textarea{width:100%;padding:var(--space-3);border:1px solid var(--color-border);border-radius:var(--radius-md);background:var(--color-bg);font-size:var(--text-sm);resize:vertical;min-height:120px;font-family:var(--font-body);color:var(--color-text)}
@@ -150,20 +144,34 @@ a,button,[role="button"],input,select,textarea{transition:color var(--transition
 .parse-row-key{font-weight:600;color:var(--color-text-muted);min-width:120px;font-size:var(--text-xs);text-transform:uppercase;letter-spacing:0.04em}
 .parse-row-val{color:var(--color-text);flex:1}
 .partida-tag{display:inline-flex;align-items:center;gap:4px;background:var(--color-primary-highlight);color:var(--color-primary-active);font-size:var(--text-xs);font-weight:600;padding:2px 10px;border-radius:var(--radius-full);margin:2px}
-.partida-tag.nueva{background:var(--color-orange-highlight);color:var(--color-orange)}
 
-/* PANEL GESTIÓN TRABAJADORES */
+/* NÓMINA TABLE */
+.nomina-table-wrap{overflow-x:auto;border-radius:var(--radius-lg);border:1px solid var(--color-border);margin-bottom:var(--space-4)}
+.nomina-table{width:100%;font-size:var(--text-sm);border-collapse:collapse}
+.nomina-table th{background:var(--color-surface-offset);padding:var(--space-2) var(--space-3);text-align:left;font-size:var(--text-xs);font-weight:700;color:var(--color-text-muted);text-transform:uppercase;letter-spacing:0.04em;border-bottom:1px solid var(--color-divider)}
+.nomina-table td{padding:var(--space-2) var(--space-3);border-bottom:1px solid var(--color-divider);vertical-align:middle}
+.nomina-table tr:last-child td{border-bottom:none}
+.nomina-table tr:hover td{background:var(--color-surface-offset)}
+.nomina-table input{border:none;background:transparent;outline:none;font-size:var(--text-sm);color:var(--color-text);width:100%;padding:2px 4px}
+.nomina-table input:focus{background:var(--color-primary-highlight);border-radius:var(--radius-sm)}
+.nomina-table select{border:none;background:transparent;font-size:var(--text-sm);color:var(--color-text);width:100%;padding:2px 4px;cursor:pointer}
+.nomina-table select:focus{outline:2px solid var(--color-primary);border-radius:var(--radius-sm)}
+.btn-remove-worker{color:var(--color-error);padding:var(--space-1);border-radius:var(--radius-sm)}
+.btn-remove-worker:hover{background:var(--color-error-highlight)}
+.nomina-import-area{border:2px dashed var(--color-border);border-radius:var(--radius-lg);padding:var(--space-6);text-align:center;margin-bottom:var(--space-4);background:var(--color-surface-2);cursor:pointer;transition:all var(--transition-interactive)}
+.nomina-import-area:hover,.nomina-import-area.drag-over{border-color:var(--color-primary);background:var(--color-primary-highlight)}
+.nomina-import-area p{font-size:var(--text-sm);color:var(--color-text-muted);margin-top:var(--space-2)}
+.nomina-import-area .icon-upload{color:var(--color-primary);margin:0 auto var(--space-2)}
+.btn-add-worker{display:inline-flex;align-items:center;gap:var(--space-2);padding:var(--space-2) var(--space-4);background:var(--color-surface-offset);border:1.5px dashed var(--color-border);border-radius:var(--radius-md);font-size:var(--text-sm);color:var(--color-text-muted);font-weight:500;margin-top:var(--space-2)}
+.btn-add-worker:hover{border-color:var(--color-primary);color:var(--color-primary);background:var(--color-primary-highlight)}
+.cargo-autocompletado{font-size:var(--text-xs);color:var(--color-primary);font-weight:600;margin-top:2px;display:none}
+.cargo-autocompletado.visible{display:block}
+
+/* PANEL GESTIÓN */
 .panel-gestion{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-xl);margin-bottom:var(--space-4);overflow:hidden;box-shadow:var(--shadow-sm)}
 .panel-gestion-header{padding:var(--space-3) var(--space-5);background:var(--color-surface-offset);border-bottom:1px solid var(--color-divider);display:flex;align-items:center;justify-content:space-between}
 .panel-gestion-title{font-size:var(--text-xs);font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--color-text-muted)}
 .panel-gestion-body{padding:var(--space-4) var(--space-5)}
-.trabajador-list-item{display:flex;align-items:center;gap:var(--space-3);padding:var(--space-2) var(--space-3);border-radius:var(--radius-md);border:1px solid var(--color-border);background:var(--color-bg);margin-bottom:var(--space-2)}
-.trabajador-list-item input{flex:1;border:none;background:transparent;outline:none;font-size:var(--text-sm);color:var(--color-text)}
-.trabajador-list-item input::placeholder{color:var(--color-text-faint)}
-.btn-remove-worker{color:var(--color-error);padding:var(--space-1);border-radius:var(--radius-sm)}
-.btn-remove-worker:hover{background:var(--color-error-highlight)}
-.btn-add-worker{display:inline-flex;align-items:center;gap:var(--space-2);padding:var(--space-2) var(--space-4);background:var(--color-surface-offset);border:1.5px dashed var(--color-border);border-radius:var(--radius-md);font-size:var(--text-sm);color:var(--color-text-muted);font-weight:500;margin-top:var(--space-2)}
-.btn-add-worker:hover{border-color:var(--color-primary);color:var(--color-primary);background:var(--color-primary-highlight)}
 
 /* BTNS */
 .btn{display:inline-flex;align-items:center;gap:var(--space-2);padding:var(--space-2) var(--space-4);border-radius:var(--radius-md);font-size:var(--text-sm);font-weight:600;cursor:pointer;transition:all var(--transition-interactive)}
@@ -233,7 +241,7 @@ a,button,[role="button"],input,select,textarea{transition:color var(--transition
 </header>
 
 <main class="main">
-  <!-- FECHA BAR — solo fecha -->
+  <!-- FECHA BAR -->
   <div class="fecha-bar">
     <div style="display:flex;align-items:center;gap:var(--space-3)">
       <label for="fechaInput">Fecha</label>
@@ -244,7 +252,7 @@ a,button,[role="button"],input,select,textarea{transition:color var(--transition
   <!-- TABS -->
   <nav class="tab-nav" role="tablist">
     <button class="tab-btn active" role="tab" onclick="showTab('manual',this)">📋 Registro manual</button>
-    <button class="tab-btn" role="tab" onclick="showTab('informe',this)">📨 Pegar informe del supervisor</button>
+    <button class="tab-btn" role="tab" onclick="showTab('informe',this)">📨 Informe del supervisor</button>
     <button class="tab-btn" role="tab" onclick="showTab('nómina',this)">👷 Nómina de cuadrilla</button>
   </nav>
 
@@ -252,16 +260,55 @@ a,button,[role="button"],input,select,textarea{transition:color var(--transition
   <div class="tab-panel" id="tab-nómina">
     <div class="panel-gestion">
       <div class="panel-gestion-header">
-        <span class="panel-gestion-title">👷 Trabajadores registrados en cuadrilla</span>
+        <span class="panel-gestion-title">👷 Nómina de cuadrilla</span>
         <span style="font-size:var(--text-xs);color:var(--color-text-muted)" id="nominaCount">0 trabajadores</span>
       </div>
       <div class="panel-gestion-body">
-        <p style="font-size:var(--text-sm);color:var(--color-text-muted);margin-bottom:var(--space-4)">Agrega aquí los nombres de la cuadrilla. Estarán disponibles como lista desplegable al registrar trabajadores.</p>
-        <div id="nominaList"></div>
-        <button class="btn-add-worker" onclick="agregarNominaItem()">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-          Agregar trabajador a nómina
-        </button>
+
+        <!-- IMPORTAR DESDE EXCEL -->
+        <div class="nomina-import-area" id="importArea" onclick="document.getElementById('excelFileInput').click()"
+          ondragover="event.preventDefault();this.classList.add('drag-over')"
+          ondragleave="this.classList.remove('drag-over')"
+          ondrop="handleExcelDrop(event)">
+          <svg class="icon-upload" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="17 8 12 3 7 8"/>
+            <line x1="12" y1="3" x2="12" y2="15"/>
+          </svg>
+          <strong style="font-size:var(--text-sm);color:var(--color-primary)">Importar desde Excel</strong>
+          <p>Arrastra tu archivo .xlsx o .xls aquí, o haz clic para seleccionar.<br>
+          <span style="font-size:var(--text-xs)">El archivo debe tener dos columnas: <strong>Nombre</strong> y <strong>Cargo/Profesión</strong> (con encabezado en la primera fila).</span></p>
+        </div>
+        <input type="file" id="excelFileInput" accept=".xlsx,.xls,.csv" style="display:none" onchange="handleExcelFile(this)">
+
+        <!-- TABLA NÓMINA -->
+        <div class="nomina-table-wrap" id="nominaTableWrap" style="display:none">
+          <table class="nomina-table">
+            <thead>
+              <tr>
+                <th style="width:36px">#</th>
+                <th>Nombre del trabajador</th>
+                <th>Cargo / Profesión</th>
+                <th style="width:44px"></th>
+              </tr>
+            </thead>
+            <tbody id="nominaTableBody"></tbody>
+          </table>
+        </div>
+
+        <div style="display:flex;gap:var(--space-3);flex-wrap:wrap;margin-top:var(--space-3)">
+          <button class="btn-add-worker" onclick="agregarNominaItem()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Agregar trabajador manualmente
+          </button>
+          <button class="btn btn-secondary btn-sm" onclick="limpiarNomina()" style="margin-top:var(--space-2)" id="btnLimpiarNomina" style="display:none">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+            Limpiar nómina
+          </button>
+        </div>
+        <p style="font-size:var(--text-xs);color:var(--color-text-muted);margin-top:var(--space-3)">
+          Los trabajadores agregados aquí aparecerán en el listado desplegable del Registro Manual. Al seleccionar un nombre, el cargo se completará automáticamente.
+        </p>
       </div>
     </div>
   </div>
@@ -323,7 +370,7 @@ a,button,[role="button"],input,select,textarea{transition:color var(--transition
         </div>
       </div>
       <div class="section-body">
-        <p style="font-size:var(--text-sm);color:var(--color-text-muted);margin-bottom:var(--space-4)">Pega el mensaje exacto que te envió el supervisor. El sistema detectará automáticamente las partidas del itemizado, ubicaciones (bodegas/módulos) y asignará las categorías correspondientes.</p>
+        <p style="font-size:var(--text-sm);color:var(--color-text-muted);margin-bottom:var(--space-4)">Pega el mensaje exacto que te envió el supervisor. El sistema detectará automáticamente las partidas del itemizado, ubicaciones y asignará las categorías correspondientes.</p>
         <div class="informe-diario-wrap">
           <textarea id="informeTexto" placeholder="Ej: Se realizó sellante de juntas en bodegas 69, 70 y 71 del módulo 3. Trabajaron 2 maestros. También se hizo tabiquería en bodega 72 y pintura en hall principal."></textarea>
         </div>
@@ -369,6 +416,9 @@ a,button,[role="button"],input,select,textarea{transition:color var(--transition
 
 <div class="toast" id="toast"></div>
 
+<!-- SheetJS para leer Excel -->
+<script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
+
 <script>
 // ============================================================
 // DICCIONARIO DE PARTIDAS DEL ITEMIZADO
@@ -397,8 +447,13 @@ const DICCIONARIO_PARTIDAS = [
 const CATEGORIAS_ITEMIZADO = DICCIONARIO_PARTIDAS.map(p => p.nombre);
 const CARGOS = ["Maestro Construcción","Maestro Especialista","Jornal","Capataz","Prevencionista","Bodeguero","Topógrafo","Otro"];
 
-// Nómina persistente (lista de trabajadores de la cuadrilla)
-let nominaCuadrilla = JSON.parse(localStorage.getItem('nominaCuadrilla') || '[]');
+// Nómina: [{nombre, cargo}]
+let nominaCuadrilla = [];
+try { nominaCuadrilla = JSON.parse(localStorage.getItem('nominaCuadrilla') || '[]'); } catch(e){}
+// Migrar formato antiguo (array de strings) a nuevo formato (array de objetos)
+if(nominaCuadrilla.length && typeof nominaCuadrilla[0] === 'string'){
+  nominaCuadrilla = nominaCuadrilla.map(n => ({nombre: n, cargo: ''}));
+}
 
 let trabajadores = [];
 let contadorId = 0;
@@ -428,43 +483,129 @@ function showTab(id, btn){
   btn.classList.add('active');
 }
 
-// ── NÓMINA DE CUADRILLA ──
+// ── NÓMINA ──
 function saveNomina(){
   try{ localStorage.setItem('nominaCuadrilla', JSON.stringify(nominaCuadrilla)); }catch(e){}
 }
+
 function renderNomina(){
-  const list = document.getElementById('nominaList');
+  const tbody = document.getElementById('nominaTableBody');
+  const wrap = document.getElementById('nominaTableWrap');
   const count = document.getElementById('nominaCount');
-  if(!list) return;
-  list.innerHTML = '';
-  nominaCuadrilla.forEach((nombre, i) => {
-    list.innerHTML += `
-    <div class="trabajador-list-item">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0;color:var(--color-text-muted)"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-      <input type="text" value="${nombre}" placeholder="Nombre del trabajador"
-        oninput="nominaCuadrilla[${i}]=this.value;saveNomina();renderTrabajadores()" />
-      <button class="btn-remove-worker" onclick="eliminarDeNomina(${i})" title="Quitar de nómina">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-      </button>
-    </div>`;
+  if(!tbody) return;
+  tbody.innerHTML = '';
+  nominaCuadrilla.forEach((w, i) => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td style="color:var(--color-text-muted);font-size:var(--text-xs);text-align:center">${i+1}</td>
+      <td><input type="text" value="${escHtml(w.nombre)}" placeholder="Nombre completo"
+        oninput="nominaCuadrilla[${i}].nombre=this.value;saveNomina();renderTrabajadores()"></td>
+      <td>
+        <select onchange="nominaCuadrilla[${i}].cargo=this.value;saveNomina();renderTrabajadores()">
+          <option value="">— Cargo —</option>
+          ${CARGOS.map(c=>`<option value="${c}" ${w.cargo===c?'selected':''}>${c}</option>`).join('')}
+        </select>
+      </td>
+      <td>
+        <button class="btn-remove-worker" onclick="eliminarDeNomina(${i})" title="Quitar">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </td>`;
+    tbody.appendChild(tr);
   });
+  if(wrap) wrap.style.display = nominaCuadrilla.length ? 'block' : 'none';
   if(count) count.textContent = nominaCuadrilla.length + ' trabajador' + (nominaCuadrilla.length !== 1 ? 'es' : '');
 }
+
 function agregarNominaItem(){
-  nominaCuadrilla.push('');
+  nominaCuadrilla.push({nombre:'', cargo:''});
   saveNomina();
   renderNomina();
-  // Focus último input
   setTimeout(()=>{
-    const inputs = document.querySelectorAll('#nominaList .trabajador-list-item input');
-    if(inputs.length) inputs[inputs.length-1].focus();
+    const rows = document.querySelectorAll('#nominaTableBody tr');
+    if(rows.length){ const inp = rows[rows.length-1].querySelector('input'); if(inp) inp.focus(); }
   },50);
 }
+
 function eliminarDeNomina(i){
   nominaCuadrilla.splice(i,1);
   saveNomina();
   renderNomina();
   renderTrabajadores();
+}
+
+function limpiarNomina(){
+  if(!confirm('¿Limpiar toda la nómina?')) return;
+  nominaCuadrilla = [];
+  saveNomina();
+  renderNomina();
+  renderTrabajadores();
+  showToast('Nómina limpiada');
+}
+
+// ── IMPORTAR EXCEL ──
+function handleExcelDrop(e){
+  e.preventDefault();
+  document.getElementById('importArea').classList.remove('drag-over');
+  const file = e.dataTransfer.files[0];
+  if(file) procesarArchivoExcel(file);
+}
+function handleExcelFile(input){
+  if(input.files[0]) procesarArchivoExcel(input.files[0]);
+  input.value = '';
+}
+function procesarArchivoExcel(file){
+  const ext = file.name.split('.').pop().toLowerCase();
+  if(ext === 'csv'){
+    const reader = new FileReader();
+    reader.onload = e => {
+      const lines = e.target.result.split('\n').filter(l=>l.trim());
+      const data = lines.slice(1).map(l => {
+        const parts = l.split(/[,;]/).map(p=>p.trim().replace(/^"|"$/g,''));
+        return {nombre: parts[0]||'', cargo: parts[1]||''};
+      }).filter(r=>r.nombre);
+      importarNominaData(data, file.name);
+    };
+    reader.readAsText(file, 'UTF-8');
+    return;
+  }
+  if(typeof XLSX === 'undefined'){ showToast('Error: librería Excel no cargada'); return; }
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const wb = XLSX.read(e.target.result, {type:'array'});
+      const ws = wb.Sheets[wb.SheetNames[0]];
+      const json = XLSX.utils.sheet_to_json(ws, {header:1, defval:''});
+      if(json.length < 2){ showToast('El archivo parece estar vacío o sin datos'); return; }
+      // Detectar columnas: buscar encabezados con "nombre" y "cargo/profesión"
+      const header = json[0].map(h => String(h).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,''));
+      let colNombre = header.findIndex(h => h.includes('nombre'));
+      let colCargo = header.findIndex(h => h.includes('cargo') || h.includes('profesion') || h.includes('oficio'));
+      if(colNombre < 0) colNombre = 0;
+      if(colCargo < 0) colCargo = 1;
+      const data = json.slice(1)
+        .map(row => ({nombre: String(row[colNombre]||'').trim(), cargo: String(row[colCargo]||'').trim()}))
+        .filter(r => r.nombre);
+      importarNominaData(data, file.name);
+    } catch(err){
+      showToast('Error al leer el archivo: ' + err.message);
+    }
+  };
+  reader.readAsArrayBuffer(file);
+}
+function importarNominaData(data, filename){
+  if(!data.length){ showToast('No se encontraron trabajadores en el archivo'); return; }
+  // Normalizar cargo: si coincide con lista CARGOS, usar exacto
+  data = data.map(w => {
+    const cNorm = w.cargo.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+    const match = CARGOS.find(c => c.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'') === cNorm || cNorm.includes(c.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'')));
+    return {nombre: w.nombre, cargo: match || w.cargo};
+  });
+  nominaCuadrilla = data;
+  saveNomina();
+  renderNomina();
+  renderTrabajadores();
+  showToast(`✓ ${data.length} trabajadores importados desde "${filename}"`);
 }
 
 // ── SUGERENCIA DE PARTIDAS ──
@@ -506,7 +647,7 @@ function parsearInforme(){
     html += row('Partidas sugeridas', '⚠️ No se detectaron partidas automáticamente.');
   }
   html += '<div style="margin-top:var(--space-4);padding-top:var(--space-3);border-top:1px solid var(--color-divider)">';
-  html += '<button class="btn btn-primary btn-sm" style="margin-top:var(--space-3)" onclick="cargarEnManual('+(JSON.stringify({bodegas,partidas,modulo:moduloDetectado,texto}))+')">Cargar en registro manual</button>';
+  html += '<button class="btn btn-primary btn-sm" style="margin-top:var(--space-3)" onclick="cargarEnManual('+(JSON.stringify({bodegas,partidas,modulo:moduloDetectado,texto}))+')\">Cargar en registro manual</button>';
   html += '</div>';
   const resultEl = document.getElementById('parseResult');
   resultEl.innerHTML = html;
@@ -546,10 +687,10 @@ function renderTrabajadores(){
   list.innerHTML='';
   trabajadores.forEach((t,i)=>{list.innerHTML+=buildTrabajadorHTML(t,i+1);});
   trabajadores.forEach(t=>initBodegasChip(t.id));
+  trabajadores.forEach(t=>initPartidaDropdown(t.id));
 }
 
 function buildTrabajadorHTML(t,num){
-  // Badge estado
   const estadoMap = {
     asiste:{cls:'badge-asiste',txt:'Interior / Bodega'},
     faena:{cls:'badge-faena',txt:'Faena exterior'},
@@ -560,31 +701,48 @@ function buildTrabajadorHTML(t,num){
   const preview = t.nombre || `Trabajador ${num}`;
   const oculto = t.estado==='noasiste'?'oculto':'';
 
-  // Dropdown de nómina
+  // Dropdown nombre con nómina
   const nominaOpts = nominaCuadrilla
-    .filter(n => n.trim())
-    .map(n => `<option value="${n}" ${t.nombre===n?'selected':''}>${n}</option>`)
+    .filter(w => w.nombre.trim())
+    .map(w => `<option value="${escHtml(w.nombre)}" ${t.nombre===w.nombre?'selected':''}>${escHtml(w.nombre)}</option>`)
     .join('');
   const nombreSelect = nominaOpts
-    ? `<select onchange="updateNombreSelect(${t.id},this.value)">
+    ? `<select onchange="autocompletarCargo(${t.id},this.value)">
         <option value="">— Seleccionar trabajador —</option>
         ${nominaOpts}
         <option value="__otro__">✏️ Escribir manualmente...</option>
       </select>
-      <input type="text" id="nombre-manual-${t.id}" placeholder="Nombre manual" value="${t.nombre}"
+      <input type="text" id="nombre-manual-${t.id}" placeholder="Nombre del trabajador" value="${escHtml(t.nombre)}"
         oninput="updateNombre(${t.id},this.value)"
-        style="margin-top:var(--space-2);display:${(!t.nombre || nominaCuadrilla.includes(t.nombre))?'none':'block'}">`
-    : `<input type="text" placeholder="Ej: Juan Pérez" value="${t.nombre}" oninput="updateNombre(${t.id},this.value)">
-       <small style="color:var(--color-text-muted);font-size:var(--text-xs);margin-top:4px">Ve a <strong>Nómina de cuadrilla</strong> para agregar trabajadores a la lista.</small>`;
+        style="margin-top:var(--space-2);display:${(!t.nombre || nominaCuadrilla.some(w=>w.nombre===t.nombre))?'none':'block'}">`
+    : `<input type="text" placeholder="Ej: Juan Pérez" value="${escHtml(t.nombre)}" oninput="updateNombre(${t.id},this.value)">
+       <small style="color:var(--color-text-muted);font-size:var(--text-xs);margin-top:4px">Ve a <strong>Nómina de cuadrilla</strong> para agregar trabajadores.</small>`;
 
-  // Select múltiple de partidas
-  const partidasOpts = CATEGORIAS_ITEMIZADO.map(cat =>
-    `<option value="${cat}" ${t.categorias.includes(cat)?'selected':''}>${cat}</option>`
-  ).join('');
+  // Campo cargo (puede ser autocompletado o manual)
+  const cargoSelect = `
+    <select id="cargo-select-${t.id}" onchange="updateField(${t.id},'cargo',this.value)">
+      <option value="">Seleccionar cargo</option>
+      ${CARGOS.map(c=>`<option value="${c}" ${t.cargo===c?'selected':''}>${c}</option>`).join('')}
+    </select>
+    <span class="cargo-autocompletado ${t.cargo?'visible':''}" id="cargo-auto-hint-${t.id}">
+      ✓ Cargo completado automáticamente desde nómina
+    </span>`;
 
+  // Chips de partidas seleccionadas
   const selectedTags = t.categorias.length
-    ? `<div class="partidas-selected-tags">${t.categorias.map(c=>`<span class="partida-chip">${c}</span>`).join('')}</div>`
+    ? t.categorias.map(c=>`<span class="partida-chip">${c}</span>`).join('')
     : '';
+
+  // Opciones del dropdown de partidas
+  const partidasOptsHTML = CATEGORIAS_ITEMIZADO.map(cat => `
+    <div class="partidas-dropdown-item" onclick="togglePartida(${t.id},'${escHtml(cat)}',this)">
+      <input type="checkbox" ${t.categorias.includes(cat)?'checked':''} onclick="event.stopPropagation()">
+      <span>${cat}</span>
+    </div>`).join('');
+
+  const btnLabel = t.categorias.length
+    ? `${t.categorias.length} partida${t.categorias.length>1?'s':''} seleccionada${t.categorias.length>1?'s':''}`
+    : 'Seleccionar partidas…';
 
   return `
   <div class="trabajador-card" id="card-${t.id}">
@@ -603,10 +761,7 @@ function buildTrabajadorHTML(t,num){
       </div>
       <div class="field">
         <label>Cargo</label>
-        <select onchange="updateField(${t.id},'cargo',this.value)">
-          <option value="">Seleccionar cargo</option>
-          ${CARGOS.map(c=>`<option value="${c}" ${t.cargo===c?'selected':''}>${c}</option>`).join('')}
-        </select>
+        ${cargoSelect}
       </div>
       <div class="field full">
         <label>Estado del día</label>
@@ -638,22 +793,91 @@ function buildTrabajadorHTML(t,num){
       </div>
       <div class="field full detalle-campo ${oculto}" id="desc-field-${t.id}">
         <label>Descripción del trabajo realizado</label>
-        <textarea placeholder="Detalle: sellante de juntas en bodegas 69-70, 2 manos de pintura en hall…" oninput="updateDescripcion(${t.id},this.value)">${t.descripcion}</textarea>
+        <textarea placeholder="Detalle: sellante de juntas en bodegas 69-70, 2 manos de pintura en hall…" oninput="updateDescripcion(${t.id},this.value)">${escHtml(t.descripcion)}</textarea>
       </div>
       <div class="field full detalle-campo ${oculto}" id="categorias-field-${t.id}">
         <label>Partidas del itemizado trabajadas</label>
-        <div class="partidas-select-wrap">
-          <select class="partidas-select" multiple onchange="updateCategoriasSelect(${t.id},this)">
-            ${partidasOpts}
-          </select>
-          <p class="partidas-hint">Mantén <kbd>Ctrl</kbd> (o <kbd>Cmd</kbd> en Mac) para seleccionar varias partidas.</p>
+        <div class="partidas-dropdown-wrap" id="pdropwrap-${t.id}">
+          <button type="button" class="partidas-dropdown-btn" id="pdropbtn-${t.id}" onclick="togglePartidaDropdown(${t.id})">
+            <span id="pdropbtnlabel-${t.id}">${btnLabel}</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="partidas-dropdown-list" id="pdroplist-${t.id}">
+            ${partidasOptsHTML}
+          </div>
         </div>
-        ${selectedTags}
+        <div class="partidas-selected-tags" id="partidas-tags-${t.id}">${selectedTags}</div>
       </div>
     </div>
   </div>`;
 }
 
+// ── AUTOCOMPLETAR CARGO DESDE NÓMINA ──
+function autocompletarCargo(id, nombre){
+  const t = trabajadores.find(w=>w.id===id);
+  if(!t) return;
+  const manualInput = document.getElementById(`nombre-manual-${id}`);
+  if(nombre === '__otro__'){
+    if(manualInput) manualInput.style.display='block';
+    t.nombre = '';
+    return;
+  }
+  if(manualInput) manualInput.style.display='none';
+  t.nombre = nombre;
+  document.getElementById(`preview-${id}`).textContent = nombre || `Trabajador`;
+
+  // Buscar cargo en nómina
+  const entry = nominaCuadrilla.find(w => w.nombre === nombre);
+  const hint = document.getElementById(`cargo-auto-hint-${id}`);
+  if(entry && entry.cargo){
+    t.cargo = entry.cargo;
+    const sel = document.getElementById(`cargo-select-${id}`);
+    if(sel) sel.value = entry.cargo;
+    if(hint) hint.classList.add('visible');
+  } else {
+    if(hint) hint.classList.remove('visible');
+  }
+}
+
+// ── PARTIDAS DROPDOWN ──
+function togglePartidaDropdown(id){
+  const list = document.getElementById(`pdroplist-${id}`);
+  if(!list) return;
+  // cerrar otros
+  document.querySelectorAll('.partidas-dropdown-list.open').forEach(el=>{
+    if(el.id !== `pdroplist-${id}`) el.classList.remove('open');
+  });
+  list.classList.toggle('open');
+}
+function togglePartida(id, cat, itemEl){
+  const t = trabajadores.find(w=>w.id===id);
+  if(!t) return;
+  const cb = itemEl.querySelector('input[type="checkbox"]');
+  if(t.categorias.includes(cat)){
+    t.categorias = t.categorias.filter(c=>c!==cat);
+    if(cb) cb.checked = false;
+  } else {
+    t.categorias.push(cat);
+    if(cb) cb.checked = true;
+  }
+  // actualizar botón y tags
+  const btn = document.getElementById(`pdropbtnlabel-${id}`);
+  if(btn) btn.textContent = t.categorias.length
+    ? `${t.categorias.length} partida${t.categorias.length>1?'s':''} seleccionada${t.categorias.length>1?'s':''}`
+    : 'Seleccionar partidas…';
+  const tagsEl = document.getElementById(`partidas-tags-${id}`);
+  if(tagsEl) tagsEl.innerHTML = t.categorias.map(c=>`<span class="partida-chip">${c}</span>`).join('');
+}
+function initPartidaDropdown(id){
+  // cerrar al hacer clic fuera
+  document.addEventListener('click', function handler(e){
+    const wrap = document.getElementById(`pdropwrap-${id}`);
+    const list = document.getElementById(`pdroplist-${id}`);
+    if(wrap && list && !wrap.contains(e.target)) list.classList.remove('open');
+  }, {once: false});
+}
+
+// ── BODEGAS CHIPS ──
 function buildChip(id,val){
   return `<span class="chip">${val}<button class="chip-remove" onclick="removeChip(${id},'${val}')" type="button">×</button></span>`;
 }
@@ -680,20 +904,8 @@ function removeChip(id,val){
   if(t)t.bodegas=t.bodegas.filter(b=>b!==val);
   renderTrabajadores();
 }
+
 function toggleCard(id){document.getElementById(`body-${id}`).classList.toggle('hidden');}
-function updateNombreSelect(id,val){
-  const t=trabajadores.find(w=>w.id===id);
-  if(!t)return;
-  const manualInput=document.getElementById(`nombre-manual-${id}`);
-  if(val==='__otro__'){
-    if(manualInput)manualInput.style.display='block';
-    t.nombre='';
-  } else {
-    if(manualInput)manualInput.style.display='none';
-    t.nombre=val;
-    document.getElementById(`preview-${id}`).textContent=val||'Trabajador';
-  }
-}
 function updateNombre(id,val){
   const t=trabajadores.find(w=>w.id===id);
   if(t){t.nombre=val;document.getElementById(`preview-${id}`).textContent=val||'Trabajador';}
@@ -705,17 +917,6 @@ function updateField(id,campo,val){
 function updateDescripcion(id,val){
   const t=trabajadores.find(w=>w.id===id);
   if(t)t.descripcion=val;
-}
-function updateCategoriasSelect(id,select){
-  const t=trabajadores.find(w=>w.id===id);
-  if(!t)return;
-  t.categorias=Array.from(select.selectedOptions).map(o=>o.value);
-  // Actualizar chips visuales sin re-renderizar todo
-  const wrap=document.getElementById(`categorias-field-${id}`);
-  if(!wrap)return;
-  let tagsDiv=wrap.querySelector('.partidas-selected-tags');
-  if(!tagsDiv){tagsDiv=document.createElement('div');tagsDiv.className='partidas-selected-tags';wrap.appendChild(tagsDiv);}
-  tagsDiv.innerHTML=t.categorias.map(c=>`<span class="partida-chip">${c}</span>`).join('');
 }
 function seleccionarEstado(id,val,label){
   const t=trabajadores.find(w=>w.id===id);
@@ -788,6 +989,9 @@ function showToast(msg){
   const t=document.getElementById('toast');
   t.textContent=msg;t.classList.add('show');
   setTimeout(()=>t.classList.remove('show'),2500);
+}
+function escHtml(str){
+  return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 renderTrabajadores();
 </script>
