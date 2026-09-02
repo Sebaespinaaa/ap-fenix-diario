@@ -99,17 +99,40 @@ a,button,[role="button"],input,select,textarea{transition:color var(--transition
 .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--color-primary);outline:none;box-shadow:0 0 0 3px var(--color-primary-highlight)}
 .field textarea{resize:vertical;min-height:72px;font-family:var(--font-body)}
 
-/* PARTIDAS DROPDOWN */
-.partidas-dropdown-wrap{position:relative}
-.partidas-dropdown-btn{width:100%;padding:var(--space-2) var(--space-3);border:1px solid var(--color-border);border-radius:var(--radius-md);background:var(--color-bg);font-size:var(--text-sm);color:var(--color-text);text-align:left;display:flex;justify-content:space-between;align-items:center;cursor:pointer}
-.partidas-dropdown-btn:hover{border-color:var(--color-primary)}
-.partidas-dropdown-list{position:absolute;z-index:50;top:calc(100% + 4px);left:0;right:0;background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-md);box-shadow:var(--shadow-md);max-height:220px;overflow-y:auto;display:none}
-.partidas-dropdown-list.open{display:block}
-.partidas-dropdown-item{display:flex;align-items:center;gap:var(--space-2);padding:var(--space-2) var(--space-3);cursor:pointer;font-size:var(--text-sm);color:var(--color-text)}
-.partidas-dropdown-item:hover{background:var(--color-surface-offset)}
-.partidas-dropdown-item input[type="checkbox"]{accent-color:var(--color-primary);width:15px;height:15px;flex-shrink:0;cursor:pointer}
-.partidas-selected-tags{display:flex;flex-wrap:wrap;gap:var(--space-2);margin-top:var(--space-2)}
-.partida-chip{display:inline-flex;align-items:center;gap:4px;background:var(--color-primary-highlight);color:var(--color-primary-active);font-size:var(--text-xs);font-weight:600;padding:3px 10px;border-radius:var(--radius-full)}
+/* PARTIDAS CHIPS INLINE — igual formato que estado */
+.partidas-chips-wrap{display:flex;flex-wrap:wrap;gap:var(--space-2);padding:var(--space-2) 0}
+.partida-opcion{
+  display:inline-flex;align-items:center;gap:var(--space-1);
+  padding:var(--space-1) var(--space-3);
+  border:1.5px solid var(--color-border);
+  border-radius:var(--radius-full);
+  cursor:pointer;user-select:none;
+  font-size:var(--text-xs);font-weight:500;
+  color:var(--color-text-muted);
+  background:var(--color-bg);
+  transition:all var(--transition-interactive);
+  line-height:1.4;
+}
+.partida-opcion:hover{border-color:var(--color-primary);color:var(--color-primary);background:var(--color-primary-highlight)}
+.partida-opcion.selected{
+  background:var(--color-primary-highlight);
+  border-color:var(--color-primary);
+  color:var(--color-primary-active);
+  font-weight:700;
+}
+.partida-opcion.selected .partida-check{opacity:1}
+.partida-check{
+  width:12px;height:12px;
+  opacity:0;
+  flex-shrink:0;
+  transition:opacity var(--transition-interactive);
+}
+.partidas-resumen{
+  margin-top:var(--space-2);
+  font-size:var(--text-xs);
+  color:var(--color-text-muted);
+  font-weight:500;
+}
 
 /* BODEGAS CHIPS */
 .bodegas-input{display:flex;flex-wrap:wrap;gap:var(--space-2);padding:var(--space-2);border:1px solid var(--color-border);border-radius:var(--radius-md);background:var(--color-bg);min-height:44px;align-items:flex-start;cursor:text}
@@ -277,8 +300,6 @@ a,button,[role="button"],input,select,textarea{transition:color var(--transition
         <span style="font-size:var(--text-xs);color:var(--color-text-muted)" id="nominaCount">0 trabajadores</span>
       </div>
       <div class="panel-gestion-body">
-
-        <!-- IMPORTAR DESDE EXCEL -->
         <div class="nomina-import-area" id="importArea" onclick="document.getElementById('excelFileInput').click()"
           ondragover="event.preventDefault();this.classList.add('drag-over')"
           ondragleave="this.classList.remove('drag-over')"
@@ -293,8 +314,6 @@ a,button,[role="button"],input,select,textarea{transition:color var(--transition
           <span style="font-size:var(--text-xs)">El archivo debe tener dos columnas: <strong>Nombre</strong> y <strong>Cargo/Profesión</strong> (con encabezado en la primera fila).</span></p>
         </div>
         <input type="file" id="excelFileInput" accept=".xlsx,.xls,.csv" style="display:none" onchange="handleExcelFile(this)">
-
-        <!-- TABLA NÓMINA -->
         <div class="nomina-table-wrap" id="nominaTableWrap" style="display:none">
           <table class="nomina-table">
             <thead>
@@ -308,7 +327,6 @@ a,button,[role="button"],input,select,textarea{transition:color var(--transition
             <tbody id="nominaTableBody"></tbody>
           </table>
         </div>
-
         <div style="display:flex;gap:var(--space-3);flex-wrap:wrap;margin-top:var(--space-3)">
           <button class="btn-add-worker" onclick="agregarNominaItem()">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
@@ -429,13 +447,9 @@ a,button,[role="button"],input,select,textarea{transition:color var(--transition
 
 <div class="toast" id="toast"></div>
 
-<!-- SheetJS para leer Excel -->
 <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
 
 <script>
-// ============================================================
-// DICCIONARIO DE PARTIDAS DEL ITEMIZADO
-// ============================================================
 const DICCIONARIO_PARTIDAS = [
   { nombre: "Obra gruesa / Hormigón", claves: ["hormigon","hormigón","losa","fundacion","fundación","radier","viga","pilares","muro estructural"] },
   { nombre: "Estructura metálica", claves: ["estructura metalica","estructura metálica","perfil","cerchas","correas","tirantes","soldadura","union perno"] },
@@ -460,7 +474,6 @@ const DICCIONARIO_PARTIDAS = [
 const CATEGORIAS_ITEMIZADO = DICCIONARIO_PARTIDAS.map(p => p.nombre);
 const CARGOS = ["Bodegero","Encargada prevencion de riesgos","Encargado de obra","Gasfiter","Ingeniero de obra","Jornal","Jornal de Aseo","Maestro Albañil","Maestro Carpinteria Aluminio","Maestro Carpintero","Maestro Chapero","Maestro Soldador","Supervisor Soldador","Trazador"];
 
-// Nómina: [{nombre, cargo}]
 let nominaCuadrilla = [];
 try { nominaCuadrilla = JSON.parse(localStorage.getItem('nominaCuadrilla') || '[]'); } catch(e){}
 if(nominaCuadrilla.length && typeof nominaCuadrilla[0] === 'string'){
@@ -487,7 +500,6 @@ renderNomina();
   }
 })();
 
-// ── TABS ──
 function showTab(id, btn){
   document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
@@ -495,7 +507,6 @@ function showTab(id, btn){
   btn.classList.add('active');
 }
 
-// ── NÓMINA ──
 function saveNomina(){
   try{ localStorage.setItem('nominaCuadrilla', JSON.stringify(nominaCuadrilla)); }catch(e){}
 }
@@ -555,7 +566,6 @@ function limpiarNomina(){
   showToast('Nómina limpiada');
 }
 
-// ── IMPORTAR EXCEL ──
 function handleExcelDrop(e){
   e.preventDefault();
   document.getElementById('importArea').classList.remove('drag-over');
@@ -618,7 +628,6 @@ function importarNominaData(data, filename){
   showToast(`✓ ${data.length} trabajadores importados desde "${filename}"`);
 }
 
-// ── SUGERENCIA DE PARTIDAS ──
 function detectarPartidas(texto){
   if(!texto) return [];
   const norm = texto.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
@@ -630,7 +639,6 @@ function detectarPartidas(texto){
   ).map(p => p.nombre);
 }
 
-// ── PARSER INFORME SUPERVISOR ──
 function parsearInforme(){
   const texto = document.getElementById('informeTexto').value.trim();
   if(!texto){ showToast('Pega el texto del informe primero'); return; }
@@ -679,7 +687,6 @@ function cargarEnManual(data){
   setTimeout(()=>{ document.getElementById('trabajadoresList').scrollIntoView({behavior:'smooth',block:'start'}); },300);
 }
 
-// ── TRABAJADORES ──
 function agregarTrabajador(){
   contadorId++;
   const id=contadorId;
@@ -697,7 +704,6 @@ function renderTrabajadores(){
   list.innerHTML='';
   trabajadores.forEach((t,i)=>{list.innerHTML+=buildTrabajadorHTML(t,i+1);});
   trabajadores.forEach(t=>initBodegasChip(t.id));
-  trabajadores.forEach(t=>initPartidaDropdown(t.id));
 }
 
 function buildTrabajadorHTML(t,num){
@@ -711,11 +717,9 @@ function buildTrabajadorHTML(t,num){
   const preview = t.nombre || `Trabajador ${num}`;
   const oculto = t.estado==='noasiste'?'oculto':'';
 
-  // Determinar si el nombre actual está en la nómina
   const enNomina = nominaCuadrilla.some(w => w.nombre === t.nombre && w.nombre.trim() !== '');
   const modoManual = t.nombre && !enNomina;
 
-  // Dropdown nombre con nómina
   const nominaOpts = nominaCuadrilla
     .filter(w => w.nombre.trim())
     .map(w => `<option value="${escHtml(w.nombre)}" ${t.nombre===w.nombre?'selected':''}>${escHtml(w.nombre)}</option>`)
@@ -733,7 +737,6 @@ function buildTrabajadorHTML(t,num){
     : `<input type="text" placeholder="Ej: Juan Pérez" value="${escHtml(t.nombre)}" oninput="updateNombre(${t.id},this.value)">
        <small style="color:var(--color-text-muted);font-size:var(--text-xs);margin-top:4px">Ve a <strong>Nómina de cuadrilla</strong> para agregar trabajadores.</small>`;
 
-  // Campo cargo — bloqueado si vino de nómina, editable si es manual
   const cargoSelect = `
     <select id="cargo-select-${t.id}"
       onchange="updateField(${t.id},'cargo',this.value);updateField(${t.id},'cargoDesdeNomina',false);ocultarHintCargo(${t.id})"
@@ -749,20 +752,18 @@ function buildTrabajadorHTML(t,num){
         title="Editar manualmente">cambiar</button>
     </div>`;
 
-  // Chips de partidas seleccionadas
-  const selectedTags = t.categorias.length
-    ? t.categorias.map(c=>`<span class="partida-chip">${c}</span>`).join('')
-    : '';
+  // Chips inline de partidas — sin dropdown flotante
+  const partidasChipsHTML = CATEGORIAS_ITEMIZADO.map(cat => {
+    const sel = t.categorias.includes(cat);
+    return `<button type="button" class="partida-opcion${sel?' selected':''}" onclick="togglePartidaChip(${t.id},'${escHtml(cat)}',this)">
+      <svg class="partida-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+      ${escHtml(cat)}
+    </button>`;
+  }).join('');
 
-  const partidasOptsHTML = CATEGORIAS_ITEMIZADO.map(cat => `
-    <div class="partidas-dropdown-item" onclick="togglePartida(${t.id},'${escHtml(cat)}',this)">
-      <input type="checkbox" ${t.categorias.includes(cat)?'checked':''} onclick="event.stopPropagation()">
-      <span>${cat}</span>
-    </div>`).join('');
-
-  const btnLabel = t.categorias.length
-    ? `${t.categorias.length} partida${t.categorias.length>1?'s':''} seleccionada${t.categorias.length>1?'s':''}`
-    : 'Seleccionar partidas…';
+  const resumenPartidas = t.categorias.length
+    ? `<span style="color:var(--color-primary);font-weight:600">${t.categorias.length} seleccionada${t.categorias.length>1?'s':''}</span> — ${t.categorias.join(', ')}`
+    : '<span style="color:var(--color-text-faint)">Ninguna seleccionada</span>';
 
   return `
   <div class="trabajador-card" id="card-${t.id}">
@@ -817,32 +818,42 @@ function buildTrabajadorHTML(t,num){
       </div>
       <div class="field full detalle-campo ${oculto}" id="categorias-field-${t.id}">
         <label>Partidas del itemizado trabajadas</label>
-        <div class="partidas-dropdown-wrap" id="pdropwrap-${t.id}">
-          <button type="button" class="partidas-dropdown-btn" id="pdropbtn-${t.id}" onclick="togglePartidaDropdown(${t.id})">
-            <span id="pdropbtnlabel-${t.id}">${btnLabel}</span>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-          </button>
-          <div class="partidas-dropdown-list" id="pdroplist-${t.id}">
-            ${partidasOptsHTML}
-          </div>
+        <div class="partidas-chips-wrap" id="partidas-chips-${t.id}">
+          ${partidasChipsHTML}
         </div>
-        <div class="partidas-selected-tags" id="partidas-tags-${t.id}">${selectedTags}</div>
+        <div class="partidas-resumen" id="partidas-resumen-${t.id}">${resumenPartidas}</div>
       </div>
     </div>
   </div>`;
+}
+
+// ── PARTIDAS CHIPS INLINE ──
+function togglePartidaChip(id, cat, btn){
+  const t = trabajadores.find(w=>w.id===id);
+  if(!t) return;
+  if(t.categorias.includes(cat)){
+    t.categorias = t.categorias.filter(c=>c!==cat);
+    btn.classList.remove('selected');
+  } else {
+    t.categorias.push(cat);
+    btn.classList.add('selected');
+  }
+  const resEl = document.getElementById(`partidas-resumen-${id}`);
+  if(resEl){
+    resEl.innerHTML = t.categorias.length
+      ? `<span style="color:var(--color-primary);font-weight:600">${t.categorias.length} seleccionada${t.categorias.length>1?'s':''}</span> — ${t.categorias.join(', ')}`
+      : '<span style="color:var(--color-text-faint)">Ninguna seleccionada</span>';
+  }
 }
 
 // ── AUTOCOMPLETAR CARGO DESDE NÓMINA ──
 function autocompletarCargo(id, nombre){
   const t = trabajadores.find(w=>w.id===id);
   if(!t) return;
-
   const manualInput = document.getElementById(`nombre-manual-${id}`);
   const cargoSel = document.getElementById(`cargo-select-${id}`);
   const hint = document.getElementById(`cargo-auto-hint-${id}`);
-
   if(nombre === '__otro__'){
-    // Modo escritura manual
     if(manualInput) manualInput.style.display = 'block';
     t.nombre = '';
     t.cargo = '';
@@ -857,13 +868,9 @@ function autocompletarCargo(id, nombre){
     document.getElementById(`preview-${id}`).textContent = 'Trabajador';
     return;
   }
-
-  // Modo selección desde nómina
   if(manualInput) manualInput.style.display = 'none';
   t.nombre = nombre;
   document.getElementById(`preview-${id}`).textContent = nombre || 'Trabajador';
-
-  // Buscar cargo en nómina y autocompletar
   const entry = nominaCuadrilla.find(w => w.nombre === nombre);
   if(entry && entry.cargo){
     t.cargo = entry.cargo;
@@ -886,7 +893,6 @@ function autocompletarCargo(id, nombre){
   }
 }
 
-// Permitir editar cargo manualmente aunque vino de nómina
 function habilitarCargoBloqueado(id){
   const t = trabajadores.find(w=>w.id===id);
   if(!t) return;
@@ -904,41 +910,6 @@ function habilitarCargoBloqueado(id){
 function ocultarHintCargo(id){
   const hint = document.getElementById(`cargo-auto-hint-${id}`);
   if(hint) hint.classList.remove('visible');
-}
-
-// ── PARTIDAS DROPDOWN ──
-function togglePartidaDropdown(id){
-  const list = document.getElementById(`pdroplist-${id}`);
-  if(!list) return;
-  document.querySelectorAll('.partidas-dropdown-list.open').forEach(el=>{
-    if(el.id !== `pdroplist-${id}`) el.classList.remove('open');
-  });
-  list.classList.toggle('open');
-}
-function togglePartida(id, cat, itemEl){
-  const t = trabajadores.find(w=>w.id===id);
-  if(!t) return;
-  const cb = itemEl.querySelector('input[type="checkbox"]');
-  if(t.categorias.includes(cat)){
-    t.categorias = t.categorias.filter(c=>c!==cat);
-    if(cb) cb.checked = false;
-  } else {
-    t.categorias.push(cat);
-    if(cb) cb.checked = true;
-  }
-  const btn = document.getElementById(`pdropbtnlabel-${id}`);
-  if(btn) btn.textContent = t.categorias.length
-    ? `${t.categorias.length} partida${t.categorias.length>1?'s':''} seleccionada${t.categorias.length>1?'s':''}`
-    : 'Seleccionar partidas…';
-  const tagsEl = document.getElementById(`partidas-tags-${id}`);
-  if(tagsEl) tagsEl.innerHTML = t.categorias.map(c=>`<span class="partida-chip">${c}</span>`).join('');
-}
-function initPartidaDropdown(id){
-  document.addEventListener('click', function handler(e){
-    const wrap = document.getElementById(`pdropwrap-${id}`);
-    const list = document.getElementById(`pdroplist-${id}`);
-    if(wrap && list && !wrap.contains(e.target)) list.classList.remove('open');
-  }, {once: false});
 }
 
 // ── BODEGAS CHIPS ──
@@ -1001,7 +972,6 @@ function seleccionarEstado(id,val,label){
   });
 }
 
-// ── GENERAR INFORME ──
 function generarInforme(){
   if(trabajadores.length===0){showToast('Agrega al menos un trabajador');return;}
   const fecha=document.getElementById('fechaInput').value;
