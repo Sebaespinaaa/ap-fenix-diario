@@ -67,8 +67,8 @@ a,button,[role="button"],input,select,textarea{transition:color var(--transition
 .main{max-width:960px;margin:0 auto;padding:var(--space-8) var(--space-4) var(--space-16)}
 .fecha-bar{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);padding:var(--space-4) var(--space-6);margin-bottom:var(--space-8);display:flex;flex-wrap:wrap;gap:var(--space-4);align-items:center;box-shadow:var(--shadow-sm)}
 .fecha-bar label{font-size:var(--text-sm);font-weight:600;color:var(--color-text-muted);text-transform:uppercase;letter-spacing:0.04em;white-space:nowrap}
-.fecha-bar input[type="date"],.fecha-bar input[type="text"],.fecha-bar select{padding:var(--space-2) var(--space-3);border:1px solid var(--color-border);border-radius:var(--radius-md);background:var(--color-bg);font-size:var(--text-sm);font-weight:500;color:var(--color-text)}
-.fecha-bar input[type="date"]:focus,.fecha-bar input[type="text"]:focus,.fecha-bar select:focus{border-color:var(--color-primary);outline:none;box-shadow:0 0 0 3px var(--color-primary-highlight)}
+.fecha-bar input[type="date"]{padding:var(--space-2) var(--space-3);border:1px solid var(--color-border);border-radius:var(--radius-md);background:var(--color-bg);font-size:var(--text-sm);font-weight:500;color:var(--color-text)}
+.fecha-bar input[type="date"]:focus{border-color:var(--color-primary);outline:none;box-shadow:0 0 0 3px var(--color-primary-highlight)}
 
 /* SECTION */
 .section-block{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-xl);margin-bottom:var(--space-6);overflow:hidden;box-shadow:var(--shadow-sm)}
@@ -85,6 +85,7 @@ a,button,[role="button"],input,select,textarea{transition:color var(--transition
 .trabajador-estado-badge{font-size:var(--text-xs);font-weight:600;padding:2px 8px;border-radius:var(--radius-full)}
 .badge-asiste{background:var(--color-success-highlight);color:var(--color-success)}
 .badge-faena{background:var(--color-primary-highlight);color:var(--color-primary)}
+.badge-ambos{background:var(--color-warning-highlight);color:var(--color-warning)}
 .badge-noasiste{background:var(--color-error-highlight);color:var(--color-error)}
 .badge-default{background:var(--color-surface-dynamic);color:var(--color-text-muted)}
 .trabajador-body{padding:var(--space-4);display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4)}
@@ -98,6 +99,16 @@ a,button,[role="button"],input,select,textarea{transition:color var(--transition
 .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--color-primary);outline:none;box-shadow:0 0 0 3px var(--color-primary-highlight)}
 .field textarea{resize:vertical;min-height:72px;font-family:var(--font-body)}
 
+/* SELECT PARTIDAS MÚLTIPLE */
+.partidas-select-wrap{position:relative}
+.partidas-select{width:100%;min-height:140px;padding:var(--space-2);border:1px solid var(--color-border);border-radius:var(--radius-md);background:var(--color-bg);font-size:var(--text-sm);color:var(--color-text);cursor:pointer}
+.partidas-select:focus{border-color:var(--color-primary);outline:none;box-shadow:0 0 0 3px var(--color-primary-highlight)}
+.partidas-select option{padding:var(--space-2) var(--space-3);border-radius:var(--radius-sm);margin-bottom:2px}
+.partidas-select option:checked{background:var(--color-primary-highlight);color:var(--color-primary-active);font-weight:600}
+.partidas-hint{font-size:var(--text-xs);color:var(--color-text-muted);margin-top:var(--space-1)}
+.partidas-selected-tags{display:flex;flex-wrap:wrap;gap:var(--space-2);margin-top:var(--space-2)}
+.partida-chip{display:inline-flex;align-items:center;gap:4px;background:var(--color-primary-highlight);color:var(--color-primary-active);font-size:var(--text-xs);font-weight:600;padding:3px 10px;border-radius:var(--radius-full)}
+
 /* BODEGAS CHIPS */
 .bodegas-input{display:flex;flex-wrap:wrap;gap:var(--space-2);padding:var(--space-2);border:1px solid var(--color-border);border-radius:var(--radius-md);background:var(--color-bg);min-height:44px;align-items:flex-start;cursor:text}
 .bodegas-input:focus-within{border-color:var(--color-primary);box-shadow:0 0 0 3px var(--color-primary-highlight)}
@@ -106,22 +117,13 @@ a,button,[role="button"],input,select,textarea{transition:color var(--transition
 .chip-remove:hover{color:var(--color-primary-active)}
 .bodegas-input input[type="text"]{border:none;background:transparent;outline:none;font-size:var(--text-sm);min-width:80px;padding:2px 4px;flex:1}
 
-/* CATEGORIAS */
-.faenas-container{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-3)}
-.faena-item{display:flex;align-items:center;gap:var(--space-2);padding:var(--space-2) var(--space-3);border:1px solid var(--color-border);border-radius:var(--radius-md);background:var(--color-bg);cursor:pointer;user-select:none;transition:all var(--transition-interactive)}
-.faena-item input[type="checkbox"]{accent-color:var(--color-primary);width:16px;height:16px;flex-shrink:0}
-.faena-item:has(input:checked){background:var(--color-primary-highlight);border-color:var(--color-primary)}
-.faena-item.sugerida{border-color:var(--color-orange);background:var(--color-orange-highlight)}
-.faena-item.sugerida:has(input:checked){background:var(--color-primary-highlight);border-color:var(--color-primary)}
-.faena-label{font-size:var(--text-sm);color:var(--color-text)}
-.sugerida-badge{font-size:9px;font-weight:700;background:var(--color-orange);color:#fff;padding:1px 5px;border-radius:var(--radius-full);letter-spacing:0.04em;margin-left:auto;flex-shrink:0}
-
 /* ESTADO */
 .estado-opciones{display:flex;gap:var(--space-3);flex-wrap:wrap}
 .estado-opcion{display:flex;align-items:center;gap:var(--space-2);padding:var(--space-2) var(--space-4);border:1.5px solid var(--color-border);border-radius:var(--radius-full);cursor:pointer;user-select:none;font-size:var(--text-sm);transition:all var(--transition-interactive)}
 .estado-opcion input{display:none}
 .estado-opcion.selected-asiste{background:var(--color-success-highlight);border-color:var(--color-success);color:var(--color-success);font-weight:600}
 .estado-opcion.selected-faena{background:var(--color-primary-highlight);border-color:var(--color-primary);color:var(--color-primary);font-weight:600}
+.estado-opcion.selected-ambos{background:var(--color-warning-highlight);border-color:var(--color-warning);color:var(--color-warning);font-weight:600}
 .estado-opcion.selected-noasiste{background:var(--color-error-highlight);border-color:var(--color-error);color:var(--color-error);font-weight:600}
 .estado-dot{width:8px;height:8px;border-radius:var(--radius-full);background:currentColor;flex-shrink:0}
 .detalle-campo.oculto{opacity:0.3;pointer-events:none;filter:grayscale(1)}
@@ -149,6 +151,19 @@ a,button,[role="button"],input,select,textarea{transition:color var(--transition
 .parse-row-val{color:var(--color-text);flex:1}
 .partida-tag{display:inline-flex;align-items:center;gap:4px;background:var(--color-primary-highlight);color:var(--color-primary-active);font-size:var(--text-xs);font-weight:600;padding:2px 10px;border-radius:var(--radius-full);margin:2px}
 .partida-tag.nueva{background:var(--color-orange-highlight);color:var(--color-orange)}
+
+/* PANEL GESTIÓN TRABAJADORES */
+.panel-gestion{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-xl);margin-bottom:var(--space-4);overflow:hidden;box-shadow:var(--shadow-sm)}
+.panel-gestion-header{padding:var(--space-3) var(--space-5);background:var(--color-surface-offset);border-bottom:1px solid var(--color-divider);display:flex;align-items:center;justify-content:space-between}
+.panel-gestion-title{font-size:var(--text-xs);font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--color-text-muted)}
+.panel-gestion-body{padding:var(--space-4) var(--space-5)}
+.trabajador-list-item{display:flex;align-items:center;gap:var(--space-3);padding:var(--space-2) var(--space-3);border-radius:var(--radius-md);border:1px solid var(--color-border);background:var(--color-bg);margin-bottom:var(--space-2)}
+.trabajador-list-item input{flex:1;border:none;background:transparent;outline:none;font-size:var(--text-sm);color:var(--color-text)}
+.trabajador-list-item input::placeholder{color:var(--color-text-faint)}
+.btn-remove-worker{color:var(--color-error);padding:var(--space-1);border-radius:var(--radius-sm)}
+.btn-remove-worker:hover{background:var(--color-error-highlight)}
+.btn-add-worker{display:inline-flex;align-items:center;gap:var(--space-2);padding:var(--space-2) var(--space-4);background:var(--color-surface-offset);border:1.5px dashed var(--color-border);border-radius:var(--radius-md);font-size:var(--text-sm);color:var(--color-text-muted);font-weight:500;margin-top:var(--space-2)}
+.btn-add-worker:hover{border-color:var(--color-primary);color:var(--color-primary);background:var(--color-primary-highlight)}
 
 /* BTNS */
 .btn{display:inline-flex;align-items:center;gap:var(--space-2);padding:var(--space-2) var(--space-4);border-radius:var(--radius-md);font-size:var(--text-sm);font-weight:600;cursor:pointer;transition:all var(--transition-interactive)}
@@ -187,7 +202,6 @@ a,button,[role="button"],input,select,textarea{transition:color var(--transition
 
 @media(max-width:640px){
   .trabajador-body{grid-template-columns:1fr}
-  .faenas-container{grid-template-columns:1fr}
   .estado-opciones{flex-direction:column}
   .bottom-actions{flex-direction:column}
   .fecha-bar{flex-direction:column;align-items:flex-start}
@@ -219,28 +233,11 @@ a,button,[role="button"],input,select,textarea{transition:color var(--transition
 </header>
 
 <main class="main">
-  <!-- FECHA BAR -->
+  <!-- FECHA BAR — solo fecha -->
   <div class="fecha-bar">
     <div style="display:flex;align-items:center;gap:var(--space-3)">
       <label for="fechaInput">Fecha</label>
       <input type="date" id="fechaInput">
-    </div>
-    <div style="display:flex;align-items:center;gap:var(--space-3);flex:1">
-      <label for="supervisorInput">Supervisor</label>
-      <input type="text" id="supervisorInput" placeholder="Nombre del supervisor" style="max-width:260px;flex:1">
-    </div>
-    <div style="display:flex;align-items:center;gap:var(--space-3)">
-      <label for="moduloInput">Módulo</label>
-      <select id="moduloInput">
-        <option value="">Seleccionar</option>
-        <option value="Módulo 1">Módulo 1</option>
-        <option value="Módulo 2">Módulo 2</option>
-        <option value="Módulo 3">Módulo 3</option>
-        <option value="Módulo 4">Módulo 4</option>
-        <option value="Módulo 5">Módulo 5</option>
-        <option value="Módulo 6">Módulo 6</option>
-        <option value="General / Varios">General / Varios</option>
-      </select>
     </div>
   </div>
 
@@ -248,7 +245,26 @@ a,button,[role="button"],input,select,textarea{transition:color var(--transition
   <nav class="tab-nav" role="tablist">
     <button class="tab-btn active" role="tab" onclick="showTab('manual',this)">📋 Registro manual</button>
     <button class="tab-btn" role="tab" onclick="showTab('informe',this)">📨 Pegar informe del supervisor</button>
+    <button class="tab-btn" role="tab" onclick="showTab('nómina',this)">👷 Nómina de cuadrilla</button>
   </nav>
+
+  <!-- TAB: NÓMINA DE CUADRILLA -->
+  <div class="tab-panel" id="tab-nómina">
+    <div class="panel-gestion">
+      <div class="panel-gestion-header">
+        <span class="panel-gestion-title">👷 Trabajadores registrados en cuadrilla</span>
+        <span style="font-size:var(--text-xs);color:var(--color-text-muted)" id="nominaCount">0 trabajadores</span>
+      </div>
+      <div class="panel-gestion-body">
+        <p style="font-size:var(--text-sm);color:var(--color-text-muted);margin-bottom:var(--space-4)">Agrega aquí los nombres de la cuadrilla. Estarán disponibles como lista desplegable al registrar trabajadores.</p>
+        <div id="nominaList"></div>
+        <button class="btn-add-worker" onclick="agregarNominaItem()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Agregar trabajador a nómina
+        </button>
+      </div>
+    </div>
+  </div>
 
   <!-- TAB: REGISTRO MANUAL -->
   <div class="tab-panel active" id="tab-manual">
@@ -309,7 +325,7 @@ a,button,[role="button"],input,select,textarea{transition:color var(--transition
       <div class="section-body">
         <p style="font-size:var(--text-sm);color:var(--color-text-muted);margin-bottom:var(--space-4)">Pega el mensaje exacto que te envió el supervisor. El sistema detectará automáticamente las partidas del itemizado, ubicaciones (bodegas/módulos) y asignará las categorías correspondientes.</p>
         <div class="informe-diario-wrap">
-          <textarea id="informeTexto" placeholder="Ej: Se realizó sellante de juntas en bodegas 69, 70 y 71 del módulo 3. Trabajaron 2 maestros. También se hizo tabiquería en bodega 72 y pintura en hall principal." oninput="analizarInformeEnVivo(this.value)"></textarea>
+          <textarea id="informeTexto" placeholder="Ej: Se realizó sellante de juntas en bodegas 69, 70 y 71 del módulo 3. Trabajaron 2 maestros. También se hizo tabiquería en bodega 72 y pintura en hall principal."></textarea>
         </div>
         <button class="parse-btn" onclick="parsearInforme()">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
@@ -356,7 +372,6 @@ a,button,[role="button"],input,select,textarea{transition:color var(--transition
 <script>
 // ============================================================
 // DICCIONARIO DE PARTIDAS DEL ITEMIZADO
-// Edita aquí para agregar o quitar partidas del proyecto
 // ============================================================
 const DICCIONARIO_PARTIDAS = [
   { nombre: "Obra gruesa / Hormigón", claves: ["hormigon","hormigón","losa","fundacion","fundación","radier","viga","pilares","muro estructural"] },
@@ -382,10 +397,14 @@ const DICCIONARIO_PARTIDAS = [
 const CATEGORIAS_ITEMIZADO = DICCIONARIO_PARTIDAS.map(p => p.nombre);
 const CARGOS = ["Maestro Construcción","Maestro Especialista","Jornal","Capataz","Prevencionista","Bodeguero","Topógrafo","Otro"];
 
+// Nómina persistente (lista de trabajadores de la cuadrilla)
+let nominaCuadrilla = JSON.parse(localStorage.getItem('nominaCuadrilla') || '[]');
+
 let trabajadores = [];
 let contadorId = 0;
 
 document.getElementById('fechaInput').value = new Date().toISOString().slice(0,10);
+renderNomina();
 
 // ── THEME TOGGLE ──
 (function(){
@@ -409,7 +428,46 @@ function showTab(id, btn){
   btn.classList.add('active');
 }
 
-// ── SUGERENCIA DE PARTIDAS (por texto) ──
+// ── NÓMINA DE CUADRILLA ──
+function saveNomina(){
+  try{ localStorage.setItem('nominaCuadrilla', JSON.stringify(nominaCuadrilla)); }catch(e){}
+}
+function renderNomina(){
+  const list = document.getElementById('nominaList');
+  const count = document.getElementById('nominaCount');
+  if(!list) return;
+  list.innerHTML = '';
+  nominaCuadrilla.forEach((nombre, i) => {
+    list.innerHTML += `
+    <div class="trabajador-list-item">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0;color:var(--color-text-muted)"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <input type="text" value="${nombre}" placeholder="Nombre del trabajador"
+        oninput="nominaCuadrilla[${i}]=this.value;saveNomina();renderTrabajadores()" />
+      <button class="btn-remove-worker" onclick="eliminarDeNomina(${i})" title="Quitar de nómina">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>`;
+  });
+  if(count) count.textContent = nominaCuadrilla.length + ' trabajador' + (nominaCuadrilla.length !== 1 ? 'es' : '');
+}
+function agregarNominaItem(){
+  nominaCuadrilla.push('');
+  saveNomina();
+  renderNomina();
+  // Focus último input
+  setTimeout(()=>{
+    const inputs = document.querySelectorAll('#nominaList .trabajador-list-item input');
+    if(inputs.length) inputs[inputs.length-1].focus();
+  },50);
+}
+function eliminarDeNomina(i){
+  nominaCuadrilla.splice(i,1);
+  saveNomina();
+  renderNomina();
+  renderTrabajadores();
+}
+
+// ── SUGERENCIA DE PARTIDAS ──
 function detectarPartidas(texto){
   if(!texto) return [];
   const norm = texto.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
@@ -421,98 +479,53 @@ function detectarPartidas(texto){
   ).map(p => p.nombre);
 }
 
-// ── PARSER DE INFORME SUPERVISOR ──
+// ── PARSER INFORME SUPERVISOR ──
 function parsearInforme(){
   const texto = document.getElementById('informeTexto').value.trim();
   if(!texto){ showToast('Pega el texto del informe primero'); return; }
-
   const partidas = detectarPartidas(texto);
-
-  // Detectar bodegas: números precedidos de "bodega" o sueltos con contexto
   const bodegasMatch = texto.match(/bodega[s]?\s*[\d,\s\-y]+/gi) || [];
   let bodegas = [];
-  bodegasMatch.forEach(m => {
-    const nums = m.match(/\d+/g);
-    if(nums) bodegas = [...bodegas, ...nums];
-  });
+  bodegasMatch.forEach(m => { const nums = m.match(/\d+/g); if(nums) bodegas = [...bodegas, ...nums]; });
   bodegas = [...new Set(bodegas)];
-
-  // Detectar módulo
   const modMatch = texto.match(/m[oó]dulo\s*(\d+|[a-z]+)/i);
-  const moduloDetectado = modMatch ? 'Módulo '+modMatch[1] : (document.getElementById('moduloInput').value || '—');
-
-  // Detectar personas
+  const moduloDetectado = modMatch ? 'Módulo '+modMatch[1] : '—';
   const personasMatch = texto.match(/(\d+)\s*(maestro|maestros|jornal|jornales|trabajador|trabajadores|obrero|obreros)/gi) || [];
   const personas = personasMatch.join(', ') || 'Ver descripción';
-
   const fecha = document.getElementById('fechaInput').value;
-  const supervisor = document.getElementById('supervisorInput').value || '—';
 
   let html = '<div class="parse-result-title">✦ Resultado del análisis</div>';
   html += row('Fecha', fecha);
-  html += row('Supervisor', supervisor);
   html += row('Módulo detectado', moduloDetectado);
   html += row('Bodegas', bodegas.length ? bodegas.join(', ') : '—');
   html += row('Personal mencionado', personas);
-
   if(partidas.length){
     const tagsHTML = partidas.map(p=>`<span class="partida-tag">${p}</span>`).join('');
     html += '<div class="parse-row"><span class="parse-row-key">Partidas sugeridas</span><span class="parse-row-val">' + tagsHTML + '</span></div>';
   } else {
-    html += row('Partidas sugeridas', '⚠️ No se detectaron partidas automáticamente. Revisa el texto.');
+    html += row('Partidas sugeridas', '⚠️ No se detectaron partidas automáticamente.');
   }
-
-  // Detectar partidas no mapeadas
-  const palabrasObra = ['instalacion','colocacion','aplicacion','montaje','retiro','construccion','reparacion','habilitacion'];
-  const normTexto = texto.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
-  const sinMapear = palabrasObra.filter(p => normTexto.includes(p) && !partidas.length);
-  if(sinMapear.length){
-    html += '<div class="parse-row" style="background:var(--color-orange-highlight)"><span class="parse-row-key" style="color:var(--color-orange)">Sin clasificar</span><span class="parse-row-val"><span class="partida-tag nueva">Verificar manualmente</span></span></div>';
-  }
-
   html += '<div style="margin-top:var(--space-4);padding-top:var(--space-3);border-top:1px solid var(--color-divider)">';
-  html += '<p style="font-size:var(--text-xs);color:var(--color-text-muted)">💡 <strong>Tip:</strong> Puedes usar esta estructura directamente en el <strong>Registro manual</strong> pre-cargando los datos detectados.</p>';
-  html += '<button class="btn btn-primary btn-sm" style="margin-top:var(--space-3)" onclick="cargarEnManual('+(JSON.stringify({bodegas,partidas,modulo:moduloDetectado,texto}))+')">';
-  html += '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg> Cargar en registro manual</button>';
+  html += '<button class="btn btn-primary btn-sm" style="margin-top:var(--space-3)" onclick="cargarEnManual('+(JSON.stringify({bodegas,partidas,modulo:moduloDetectado,texto}))+')">Cargar en registro manual</button>';
   html += '</div>';
-
   const resultEl = document.getElementById('parseResult');
   resultEl.innerHTML = html;
   resultEl.classList.add('visible');
   showToast('Informe analizado ✓');
-
-  // Guardar para exportar
-  window._parseData = {fecha,supervisor,modulo:moduloDetectado,bodegas,partidas,personas,textoOriginal:texto};
+  window._parseData = {fecha,modulo:moduloDetectado,bodegas,partidas,personas,textoOriginal:texto};
 }
-
-function row(key,val){
-  return `<div class="parse-row"><span class="parse-row-key">${key}</span><span class="parse-row-val">${val}</span></div>`;
-}
-
-function analizarInformeEnVivo(texto){
-  // Análisis en vivo: detectar partidas mientras escribe
-  if(texto.length < 15) return;
-  const partidas = detectarPartidas(texto);
-  // No mostrar panel aún, solo pre-analizar
-}
-
+function row(key,val){ return `<div class="parse-row"><span class="parse-row-key">${key}</span><span class="parse-row-val">${val}</span></div>`; }
 function cargarEnManual(data){
-  // Auto-crear trabajador con datos del informe
   agregarTrabajador();
   const t = trabajadores[trabajadores.length-1];
   if(!t) return;
   t.bodegas = data.bodegas || [];
   t.categorias = data.partidas || [];
   t.descripcion = data.texto || '';
-  if(data.modulo && data.modulo !== '—'){
-    document.getElementById('moduloInput').value = data.modulo;
-  }
   renderTrabajadores();
   showTab('manual', document.querySelectorAll('.tab-btn')[0]);
   showToast('Datos cargados en registro manual ✓');
-  setTimeout(()=>{
-    document.getElementById('trabajadoresList').scrollIntoView({behavior:'smooth',block:'start'});
-  },300);
+  setTimeout(()=>{ document.getElementById('trabajadoresList').scrollIntoView({behavior:'smooth',block:'start'}); },300);
 }
 
 // ── TRABAJADORES ──
@@ -534,41 +547,51 @@ function renderTrabajadores(){
   trabajadores.forEach((t,i)=>{list.innerHTML+=buildTrabajadorHTML(t,i+1);});
   trabajadores.forEach(t=>initBodegasChip(t.id));
 }
+
 function buildTrabajadorHTML(t,num){
-  const badgeClass=t.estado==='asiste'?'badge-asiste':t.estado==='faena'?'badge-faena':t.estado==='noasiste'?'badge-noasiste':'badge-default';
-  const badgeText=t.estado==='asiste'?'Trabaja · Interior':t.estado==='faena'?'Faena exterior':t.estado==='noasiste'?'No asiste':'Sin estado';
-  const preview=t.nombre||`Trabajador ${num}`;
-  const oculto=t.estado==='noasiste'?'oculto':'';
+  // Badge estado
+  const estadoMap = {
+    asiste:{cls:'badge-asiste',txt:'Interior / Bodega'},
+    faena:{cls:'badge-faena',txt:'Faena exterior'},
+    ambos:{cls:'badge-ambos',txt:'Ambos frentes'},
+    noasiste:{cls:'badge-noasiste',txt:'No asiste'}
+  };
+  const est = estadoMap[t.estado] || {cls:'badge-default',txt:'Sin estado'};
+  const preview = t.nombre || `Trabajador ${num}`;
+  const oculto = t.estado==='noasiste'?'oculto':'';
 
-  // Sugerencias en base a descripción
-  const sugeridas = t.descripcion ? detectarPartidas(t.descripcion) : [];
+  // Dropdown de nómina
+  const nominaOpts = nominaCuadrilla
+    .filter(n => n.trim())
+    .map(n => `<option value="${n}" ${t.nombre===n?'selected':''}>${n}</option>`)
+    .join('');
+  const nombreSelect = nominaOpts
+    ? `<select onchange="updateNombreSelect(${t.id},this.value)">
+        <option value="">— Seleccionar trabajador —</option>
+        ${nominaOpts}
+        <option value="__otro__">✏️ Escribir manualmente...</option>
+      </select>
+      <input type="text" id="nombre-manual-${t.id}" placeholder="Nombre manual" value="${t.nombre}"
+        oninput="updateNombre(${t.id},this.value)"
+        style="margin-top:var(--space-2);display:${(!t.nombre || nominaCuadrilla.includes(t.nombre))?'none':'block'}">`
+    : `<input type="text" placeholder="Ej: Juan Pérez" value="${t.nombre}" oninput="updateNombre(${t.id},this.value)">
+       <small style="color:var(--color-text-muted);font-size:var(--text-xs);margin-top:4px">Ve a <strong>Nómina de cuadrilla</strong> para agregar trabajadores a la lista.</small>`;
 
-  const categoriasChecks=CATEGORIAS_ITEMIZADO.map(cat=>{
-    const esSugerida = sugeridas.includes(cat) && !t.categorias.includes(cat);
-    return `
-    <label class="faena-item${esSugerida?' sugerida':''}">
-      <input type="checkbox" value="${cat}" onchange="updateCategorias(${t.id},this)" ${t.categorias.includes(cat)?'checked':''}>
-      <span class="faena-label">${cat}</span>
-      ${esSugerida?'<span class="sugerida-badge">SUGERIDA</span>':''}
-    </label>`;
-  }).join('');
+  // Select múltiple de partidas
+  const partidasOpts = CATEGORIAS_ITEMIZADO.map(cat =>
+    `<option value="${cat}" ${t.categorias.includes(cat)?'selected':''}>${cat}</option>`
+  ).join('');
 
-  const sugeridaCount = sugeridas.filter(s=>!t.categorias.includes(s)).length;
-  const sugeridaBanner = sugeridaCount > 0 ? `
-    <div class="sugerencias-panel visible" style="margin-bottom:var(--space-3)">
-      <div class="sugerencias-title">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-        ${sugeridaCount} partida(s) sugerida(s) según descripción
-      </div>
-      <div class="sugerencias-chips">${sugeridas.filter(s=>!t.categorias.includes(s)).map(s=>`<button class="sug-chip" onclick="agregarSugerida(${t.id},'${s.replace(/'/g,"\\'")}')">+ ${s}</button>`).join('')}</div>
-    </div>` : '';
+  const selectedTags = t.categorias.length
+    ? `<div class="partidas-selected-tags">${t.categorias.map(c=>`<span class="partida-chip">${c}</span>`).join('')}</div>`
+    : '';
 
   return `
   <div class="trabajador-card" id="card-${t.id}">
     <div class="trabajador-header" onclick="toggleCard(${t.id})">
       <div class="trabajador-num">${num}</div>
       <span class="trabajador-nombre-preview" id="preview-${t.id}">${preview}</span>
-      <span class="trabajador-estado-badge ${badgeClass}" id="badge-${t.id}">${badgeText}</span>
+      <span class="trabajador-estado-badge ${est.cls}" id="badge-${t.id}">${est.txt}</span>
       <button class="btn btn-danger btn-icon btn-sm" onclick="event.stopPropagation();eliminarTrabajador(${t.id})" title="Eliminar" style="margin-left:var(--space-2)">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
       </button>
@@ -576,7 +599,7 @@ function buildTrabajadorHTML(t,num){
     <div class="trabajador-body" id="body-${t.id}">
       <div class="field">
         <label>Nombre del trabajador</label>
-        <input type="text" placeholder="Ej: Juan Pérez" value="${t.nombre}" oninput="updateNombre(${t.id},this.value)">
+        ${nombreSelect}
       </div>
       <div class="field">
         <label>Cargo</label>
@@ -595,6 +618,10 @@ function buildTrabajadorHTML(t,num){
           <label class="estado-opcion ${t.estado==='faena'?'selected-faena':''}" onclick="seleccionarEstado(${t.id},'faena',this)">
             <input type="radio" name="estado-${t.id}" value="faena" ${t.estado==='faena'?'checked':''}>
             <span class="estado-dot"></span> Faena exterior / otro frente
+          </label>
+          <label class="estado-opcion ${t.estado==='ambos'?'selected-ambos':''}" onclick="seleccionarEstado(${t.id},'ambos',this)">
+            <input type="radio" name="estado-${t.id}" value="ambos" ${t.estado==='ambos'?'checked':''}>
+            <span class="estado-dot"></span> Ambos
           </label>
           <label class="estado-opcion ${t.estado==='noasiste'?'selected-noasiste':''}" onclick="seleccionarEstado(${t.id},'noasiste',this)">
             <input type="radio" name="estado-${t.id}" value="noasiste" ${t.estado==='noasiste'?'checked':''}>
@@ -615,12 +642,18 @@ function buildTrabajadorHTML(t,num){
       </div>
       <div class="field full detalle-campo ${oculto}" id="categorias-field-${t.id}">
         <label>Partidas del itemizado trabajadas</label>
-        ${sugeridaBanner}
-        <div class="faenas-container">${categoriasChecks}</div>
+        <div class="partidas-select-wrap">
+          <select class="partidas-select" multiple onchange="updateCategoriasSelect(${t.id},this)">
+            ${partidasOpts}
+          </select>
+          <p class="partidas-hint">Mantén <kbd>Ctrl</kbd> (o <kbd>Cmd</kbd> en Mac) para seleccionar varias partidas.</p>
+        </div>
+        ${selectedTags}
       </div>
     </div>
   </div>`;
 }
+
 function buildChip(id,val){
   return `<span class="chip">${val}<button class="chip-remove" onclick="removeChip(${id},'${val}')" type="button">×</button></span>`;
 }
@@ -647,11 +680,20 @@ function removeChip(id,val){
   if(t)t.bodegas=t.bodegas.filter(b=>b!==val);
   renderTrabajadores();
 }
-function agregarSugerida(id,cat){
-  const t=trabajadores.find(w=>w.id===id);
-  if(t&&!t.categorias.includes(cat)){t.categorias.push(cat);renderTrabajadores();showToast('Partida agregada ✓');}
-}
 function toggleCard(id){document.getElementById(`body-${id}`).classList.toggle('hidden');}
+function updateNombreSelect(id,val){
+  const t=trabajadores.find(w=>w.id===id);
+  if(!t)return;
+  const manualInput=document.getElementById(`nombre-manual-${id}`);
+  if(val==='__otro__'){
+    if(manualInput)manualInput.style.display='block';
+    t.nombre='';
+  } else {
+    if(manualInput)manualInput.style.display='none';
+    t.nombre=val;
+    document.getElementById(`preview-${id}`).textContent=val||'Trabajador';
+  }
+}
 function updateNombre(id,val){
   const t=trabajadores.find(w=>w.id===id);
   if(t){t.nombre=val;document.getElementById(`preview-${id}`).textContent=val||'Trabajador';}
@@ -662,24 +704,32 @@ function updateField(id,campo,val){
 }
 function updateDescripcion(id,val){
   const t=trabajadores.find(w=>w.id===id);
-  if(t){t.descripcion=val;renderTrabajadores();}
+  if(t)t.descripcion=val;
 }
-function updateCategorias(id,checkbox){
+function updateCategoriasSelect(id,select){
   const t=trabajadores.find(w=>w.id===id);
   if(!t)return;
-  if(checkbox.checked){if(!t.categorias.includes(checkbox.value))t.categorias.push(checkbox.value);}
-  else{t.categorias=t.categorias.filter(c=>c!==checkbox.value);}
+  t.categorias=Array.from(select.selectedOptions).map(o=>o.value);
+  // Actualizar chips visuales sin re-renderizar todo
+  const wrap=document.getElementById(`categorias-field-${id}`);
+  if(!wrap)return;
+  let tagsDiv=wrap.querySelector('.partidas-selected-tags');
+  if(!tagsDiv){tagsDiv=document.createElement('div');tagsDiv.className='partidas-selected-tags';wrap.appendChild(tagsDiv);}
+  tagsDiv.innerHTML=t.categorias.map(c=>`<span class="partida-chip">${c}</span>`).join('');
 }
 function seleccionarEstado(id,val,label){
   const t=trabajadores.find(w=>w.id===id);
   if(!t)return;
   t.estado=val;
-  document.querySelectorAll(`#card-${id} .estado-opcion`).forEach(l=>l.classList.remove('selected-asiste','selected-faena','selected-noasiste'));
+  document.querySelectorAll(`#card-${id} .estado-opcion`).forEach(l=>l.classList.remove('selected-asiste','selected-faena','selected-ambos','selected-noasiste'));
   if(val==='asiste')label.classList.add('selected-asiste');
   else if(val==='faena')label.classList.add('selected-faena');
+  else if(val==='ambos')label.classList.add('selected-ambos');
   else label.classList.add('selected-noasiste');
+  const estadoMap={asiste:{cls:'badge-asiste',txt:'Interior / Bodega'},faena:{cls:'badge-faena',txt:'Faena exterior'},ambos:{cls:'badge-ambos',txt:'Ambos frentes'},noasiste:{cls:'badge-noasiste',txt:'No asiste'}};
+  const est=estadoMap[val]||{cls:'badge-default',txt:'Sin estado'};
   const badgeEl=document.getElementById(`badge-${id}`);
-  if(badgeEl){badgeEl.className='trabajador-estado-badge '+(val==='asiste'?'badge-asiste':val==='faena'?'badge-faena':'badge-noasiste');badgeEl.textContent=val==='asiste'?'Trabaja · Interior':val==='faena'?'Faena exterior':'No asiste';}
+  if(badgeEl){badgeEl.className='trabajador-estado-badge '+est.cls;badgeEl.textContent=est.txt;}
   [`bodegas-field-${id}`,`categorias-field-${id}`,`desc-field-${id}`].forEach(cid=>{
     const el=document.getElementById(cid);
     if(el)el.classList.toggle('oculto',val==='noasiste');
@@ -690,14 +740,13 @@ function seleccionarEstado(id,val,label){
 function generarInforme(){
   if(trabajadores.length===0){showToast('Agrega al menos un trabajador');return;}
   const fecha=document.getElementById('fechaInput').value;
-  const supervisor=document.getElementById('supervisorInput').value||'—';
-  const modulo=document.getElementById('moduloInput').value||'—';
   const obs=document.getElementById('obsGenerales').value||'—';
-  const headers=['Fecha','Supervisor','Módulo','N°','Nombre','Cargo','Estado','Bodegas','Partidas Itemizado','Descripción'];
+  const estadoTexto={asiste:'Interior/Bodega',faena:'Faena exterior',ambos:'Ambos',noasiste:'No asiste'};
+  const headers=['Fecha','N°','Nombre','Cargo','Estado','Bodegas','Partidas Itemizado','Descripción'];
   const rows=trabajadores.map((t,i)=>[
-    fecha,supervisor,modulo,i+1,
+    fecha,i+1,
     t.nombre||'—',t.cargo||'—',
-    t.estado==='asiste'?'Interior/Bodega':t.estado==='faena'?'Faena exterior':'No asiste',
+    estadoTexto[t.estado]||t.estado,
     t.bodegas.join(', ')||'—',
     t.categorias.join(' | ')||'—',
     t.descripcion||'—'
@@ -706,12 +755,12 @@ function generarInforme(){
   table.innerHTML=`<thead><tr>${headers.map(h=>`<th>${h}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('')}</tbody>`;
   const presente=trabajadores.filter(t=>t.estado!=='noasiste').length;
   const ausente=trabajadores.filter(t=>t.estado==='noasiste').length;
-  document.getElementById('resumenTexto').textContent=`Total: ${trabajadores.length} · Presentes: ${presente} · Ausentes: ${ausente} · Módulo: ${modulo} · Supervisor: ${supervisor}`;
+  document.getElementById('resumenTexto').textContent=`Total: ${trabajadores.length} · Presentes: ${presente} · Ausentes: ${ausente}`;
   const area=document.getElementById('outputArea');
   area.classList.remove('hidden');
   area.scrollIntoView({behavior:'smooth',block:'start'});
   showToast('Informe generado ✓');
-  window._exportData={headers,rows,fecha,supervisor,modulo,obs};
+  window._exportData={headers,rows,fecha,obs};
 }
 function copiarCSV(){
   if(!window._exportData){showToast('Primero genera el informe');return;}
@@ -721,8 +770,8 @@ function copiarCSV(){
 }
 function exportarJSON(){
   if(!window._exportData){showToast('Primero genera el informe');return;}
-  const{headers,rows,fecha,supervisor,modulo,obs}=window._exportData;
-  const data={fecha,supervisor,modulo,observaciones:obs,registros:rows.map(r=>Object.fromEntries(headers.map((h,i)=>[h,r[i]])))};
+  const{headers,rows,fecha,obs}=window._exportData;
+  const data={fecha,observaciones:obs,registros:rows.map(r=>Object.fromEntries(headers.map((h,i)=>[h,r[i]])))};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`informe-cuadrillas-${fecha}.json`;a.click();
   showToast('JSON descargado ✓');
