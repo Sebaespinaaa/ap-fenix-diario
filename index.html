@@ -135,7 +135,19 @@ a,button,[role="button"],input,select,textarea{transition:color var(--transition
 .chip{display:inline-flex;align-items:center;gap:4px;background:var(--color-primary-highlight);color:var(--color-primary-active);font-size:var(--text-xs);font-weight:600;padding:2px 8px;border-radius:var(--radius-full)}
 .chip-remove{background:none;border:none;padding:0;cursor:pointer;display:flex;align-items:center;color:var(--color-primary);line-height:1}
 .chip-remove:hover{color:var(--color-primary-active)}
-.bodegas-input input[type="text"]{border:none;background:transparent;outline:none;font-size:var(--text-sm);min-width:80px;padding:2px 4px;flex:1}
+.bodegas-input input[type="text"]{border:none;background:transparent;outline:none;font-size:var(--text-sm);min-width:60px;padding:2px 4px;flex:1}
+/* Botón + para agregar bodega en móvil */
+.bodega-add-btn{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:32px;height:32px;flex-shrink:0;
+  background:var(--color-primary);color:var(--color-text-inverse);
+  border-radius:var(--radius-md);border:none;cursor:pointer;
+  font-size:1.2rem;font-weight:700;line-height:1;
+  transition:background var(--transition-interactive);
+  align-self:center;
+}
+.bodega-add-btn:hover{background:var(--color-primary-hover)}
+.bodega-add-btn:active{background:var(--color-primary-active)}
 
 /* SECTOR DE TRABAJO */
 .estado-opciones{display:flex;gap:var(--space-3);flex-wrap:wrap}
@@ -671,10 +683,28 @@ function renderTrabajadores(){
           <div class="partidas-resumen" id="presumen-${t.id}">${(t.partidas&&t.partidas.length)?t.partidas.length+' partida(s) seleccionada(s)':''}</div>
         </div>
         <div class="field full detalle-campo${(t.estado&&t.estado!=='noasiste')?'':' oculto'}" id="det2-${t.id}">
-          <label>Bodegas / ubicaciones</label>
-          <div class="bodegas-input" id="bodegas-input-${t.id}" onclick="document.getElementById('bodega-text-${t.id}').focus()">
-            ${bodegas}
-            <input type="text" id="bodega-text-${t.id}" placeholder="Ej: 69, 70 → Enter" onkeydown="handleBodegaKey(event,${t.id})">
+          <label>Bodegas / ubicaciones <span style="font-size:var(--text-xs);color:var(--color-text-muted);font-weight:400;text-transform:none">(escribe el número y presiona + o Agregar)</span></label>
+          <div style="display:flex;gap:var(--space-2);align-items:flex-start">
+            <div class="bodegas-input" id="bodegas-input-${t.id}" style="flex:1" onclick="document.getElementById('bodega-text-${t.id}').focus()">
+              ${bodegas}
+              <input
+                type="text"
+                id="bodega-text-${t.id}"
+                inputmode="text"
+                autocomplete="off"
+                autocorrect="off"
+                autocapitalize="off"
+                spellcheck="false"
+                placeholder="Ej: 69"
+                onkeydown="handleBodegaKey(event,${t.id})"
+                oninput="handleBodegaInput(event,${t.id})"
+                onblur="handleBodegaBlur(event,${t.id})">
+            </div>
+            <button
+              type="button"
+              class="bodega-add-btn"
+              aria-label="Agregar bodega"
+              onclick="addBodegaDesdeBoton(${t.id})">+</button>
           </div>
         </div>
         <div class="field full detalle-campo${(t.estado&&t.estado!=='noasiste')?'':' oculto'}" id="det3-${t.id}">
@@ -786,6 +816,9 @@ function togglePartida(id,partida,el){
   if(res) res.textContent=t.partidas.length?t.partidas.length+' partida(s) seleccionada(s)':'';
 }
 
+// ── BODEGAS: manejo unificado PC + móvil ──
+
+// PC: Enter, coma o punto y coma
 function handleBodegaKey(e,id){
   if(e.key==='Enter'||e.key===','||e.key===';'){
     e.preventDefault();
@@ -794,39 +827,66 @@ function handleBodegaKey(e,id){
   }
 }
 
+// MÓVIL: oninput — detecta coma en tiempo real (teclado virtual Android/iOS)
+function handleBodegaInput(e,id){
+  const raw=e.target.value;
+  // Si el valor contiene coma o punto y coma, separar y agregar
+  if(raw.includes(',') || raw.includes(';')){
+    const parts = raw.split(/[,;]+/).map(p=>p.trim()).filter(Boolean);
+    // El último fragmento puede ser texto incompleto; se deja en el input
+    const toAdd = parts.slice(0, -1);
+    const remaining = parts[parts.length-1]||'';
+    toAdd.forEach(v=>{ if(v) addBodega(id,v,null); });
+    e.target.value = remaining;
+    // Forzar re-render de chips sin perder el foco
+    _refreshChips(id, e.target);
+  }
+}
+
+// MÓVIL: onblur — al perder el foco confirma lo que quede escrito
+function handleBodegaBlur(e,id){
+  const val=e.target.value.trim();
+  if(val){ addBodega(id,val,e.target); }
+}
+
+// Botón + grande (apto para pulgar en móvil)
+function addBodegaDesdeBoton(id){
+  const inp=document.getElementById('bodega-text-'+id);
+  if(!inp) return;
+  const val=inp.value.trim();
+  if(val){ addBodega(id,val,inp); }
+  inp.focus();
+}
+
 function addBodega(id,val,input){
   const t=trabajadores.find(t=>t.id===id);
   if(!t) return;
   t.bodegas=t.bodegas||[];
-  val.split(/[,\s]+/).forEach(v=>{ v=v.trim(); if(v&&!t.bodegas.includes(v)) t.bodegas.push(v); });
+  val.split(/[,;\s]+/).forEach(v=>{ v=v.trim(); if(v&&!t.bodegas.includes(v)) t.bodegas.push(v); });
   if(input) input.value='';
+  _refreshChips(id, input);
+}
+
+function _refreshChips(id, inputEl){
+  const t=trabajadores.find(t=>t.id===id);
+  if(!t) return;
   const wrap=document.getElementById('bodegas-input-'+id);
-  if(wrap){
-    wrap.querySelectorAll('.chip').forEach(c=>c.remove());
-    t.bodegas.forEach(b=>{
-      const chip=document.createElement('span');
-      chip.className='chip';
-      chip.innerHTML=`${escHtml(b)}<button class="chip-remove" onclick="removeBodega(${id},'${escHtml(b)}')"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>`;
-      wrap.insertBefore(chip,input||wrap.lastElementChild);
-    });
-  }
+  if(!wrap) return;
+  const inp = inputEl || wrap.querySelector('input');
+  wrap.querySelectorAll('.chip').forEach(c=>c.remove());
+  t.bodegas.forEach(b=>{
+    const chip=document.createElement('span');
+    chip.className='chip';
+    chip.innerHTML=`${escHtml(b)}<button class="chip-remove" onclick="removeBodega(${id},'${escHtml(b)}')"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>`;
+    wrap.insertBefore(chip, inp||null);
+  });
 }
 
 function removeBodega(id,val){
   const t=trabajadores.find(t=>t.id===id);
   if(!t) return;
   t.bodegas=(t.bodegas||[]).filter(b=>b!==val);
-  const wrap=document.getElementById('bodegas-input-'+id);
-  if(wrap){
-    wrap.querySelectorAll('.chip').forEach(c=>c.remove());
-    const inp=wrap.querySelector('input');
-    t.bodegas.forEach(b=>{
-      const chip=document.createElement('span');
-      chip.className='chip';
-      chip.innerHTML=`${escHtml(b)}<button class="chip-remove" onclick="removeBodega(${id},'${escHtml(b)}')"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>`;
-      wrap.insertBefore(chip,inp||null);
-    });
-  }
+  _refreshChips(id, null);
 }
 
 // ── GENERAR INFORME ──
@@ -854,7 +914,6 @@ function generarInforme(){
   const asistentes = trabajadores.filter(t=>t.estado&&t.estado!=='noasiste').length;
   document.getElementById('resumenTexto').textContent =
     `Informe ${fecha} · ${trabajadores.length} trabajador(es) registrado(s) · ${asistentes} presente(s)`;
-  // Resetear estado PDF al generar nuevo informe
   ultimoPdfBlob = null;
   setPdfStatus(false);
   showToast('✓ Informe generado');
@@ -907,29 +966,17 @@ function exportarJSON(){
 }
 
 // ── GENERAR PDF ──
-// Construye el HTML del PDF con los datos reales de la tabla
 function construirContenidoPDF(){
   const tabla = document.getElementById('outputTable');
   const fecha = document.getElementById('fechaInput').value;
   const resumen = document.getElementById('resumenTexto').textContent;
-
-  // Extraer filas reales de la tabla del DOM
   const theadRow = tabla.querySelector('thead tr');
   const tbodyRows = tabla.querySelectorAll('tbody tr');
-
-  const cabeceras = theadRow
-    ? [...theadRow.cells].map(th => th.textContent.trim())
-    : [];
-
-  const filas = [...tbodyRows].map(tr =>
-    [...tr.cells].map(td => td.textContent.trim())
-  );
-
-  // Construir HTML de la tabla para el PDF
+  const cabeceras = theadRow ? [...theadRow.cells].map(th => th.textContent.trim()) : [];
+  const filas = [...tbodyRows].map(tr => [...tr.cells].map(td => td.textContent.trim()));
   const thHtml = cabeceras.map(h =>
     `<th style="padding:6px 8px;text-align:left;border:1px solid #d4d1ca;font-weight:700;color:#7a7974;text-transform:uppercase;font-size:8px;letter-spacing:0.04em;background:#f3f0ec">${h}</th>`
   ).join('');
-
   const trHtml = filas.map((fila, i) =>
     `<tr style="background:${i%2===0?'#fff':'#f9f8f5'}">
       ${fila.map(celda =>
@@ -937,7 +984,6 @@ function construirContenidoPDF(){
       ).join('')}
     </tr>`
   ).join('');
-
   const contenido = document.createElement('div');
   contenido.style.cssText = 'font-family:Arial,sans-serif;font-size:11px;padding:20px;color:#28251d;background:#fff';
   contenido.innerHTML = `
@@ -964,7 +1010,6 @@ function construirContenidoPDF(){
     <div style="margin-top:16px;font-size:9px;color:#bab9b4;text-align:right;border-top:1px solid #dcd9d5;padding-top:8px">
       Generado por AP FENIX Control Diario · ${new Date().toLocaleString('es-CL')}
     </div>`;
-
   return contenido;
 }
 
@@ -973,13 +1018,10 @@ function generarPDF(){
   if(!tabla || !tabla.rows.length){ showToast('Genera el informe primero'); return; }
   const fecha = document.getElementById('fechaInput').value;
   ultimoPdfNombre = 'Informe-AP-FENIX-'+fecha+'.pdf';
-
   const btn = document.getElementById('btnGenerarPDF');
   if(btn){ btn.disabled=true; btn.textContent='Generando…'; }
-
   const contenido = construirContenidoPDF();
   showToast('Generando PDF…');
-
   html2pdf().set({
     margin: 10,
     filename: ultimoPdfNombre,
@@ -999,18 +1041,16 @@ function generarPDF(){
   });
 }
 
-// ── COMPARTIR POR WHATSAPP (texto + indicación de PDF) ──
+// ── COMPARTIR POR WHATSAPP ──
 function compartirWhatsApp(){
   const fecha = document.getElementById('fechaInput').value;
   const resumen = document.getElementById('resumenTexto').textContent;
   const asistentes = trabajadores.filter(t=>t.estado&&t.estado!=='noasiste');
   const noAsiste = trabajadores.filter(t=>t.estado==='noasiste');
   const obs = document.getElementById('obsGenerales').value;
-
   let msg = `📋 *INFORME DIARIO AP FENIX*\n`;
   msg += `📅 Fecha: ${fecha}\n`;
   msg += `👷 ${resumen}\n\n`;
-
   if(asistentes.length){
     msg += `*PERSONAL PRESENTE:*\n`;
     asistentes.forEach(t=>{
@@ -1022,33 +1062,23 @@ function compartirWhatsApp(){
       msg += `\n`;
     });
   }
-
   if(noAsiste.length){
     msg += `\n*NO ASISTE:* ${noAsiste.map(t=>t.nombre||'S/N').join(', ')}\n`;
   }
-
   if(obs) msg += `\n📝 *OBS. GENERALES:* ${obs}\n`;
-
   msg += `\n_Generado por AP FENIX Control Diario_`;
-
   const encoded = encodeURIComponent(msg);
   const esMobil = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-  const url = esMobil
-    ? `whatsapp://send?text=${encoded}`
-    : `https://web.whatsapp.com/send?text=${encoded}`;
-
+  const url = esMobil ? `whatsapp://send?text=${encoded}` : `https://web.whatsapp.com/send?text=${encoded}`;
   window.open(url, '_blank');
 }
 
-// ── COMPARTIR (SISTEMA — Web Share API) ──
-// Genera el PDF si no existe y luego usa la API nativa del dispositivo
+// ── COMPARTIR (SISTEMA) ──
 function compartirNativo(){
   const tabla = document.getElementById('outputTable');
   if(!tabla || !tabla.rows.length){ showToast('Genera el informe primero'); return; }
-
   const fecha = document.getElementById('fechaInput').value;
   ultimoPdfNombre = 'Informe-AP-FENIX-'+fecha+'.pdf';
-
   const ejecutarShare = function(blob){
     const file = new File([blob], ultimoPdfNombre, {type:'application/pdf'});
     if(navigator.share && navigator.canShare && navigator.canShare({files:[file]})){
@@ -1058,7 +1088,6 @@ function compartirNativo(){
         files: [file]
       }).then(()=>showToast('✓ Compartido')).catch(e=>{ if(e.name!=='AbortError') showToast('Error al compartir'); });
     } else if(navigator.share){
-      // Compartir solo texto si no se puede compartir archivo
       navigator.share({
         title: 'Informe AP FENIX — '+fecha,
         text: 'Informe diario de cuadrillas AP FENIX\n'+document.getElementById('resumenTexto').textContent
@@ -1067,16 +1096,13 @@ function compartirNativo(){
       showToast('Compartir no disponible en este dispositivo');
     }
   };
-
   if(ultimoPdfBlob){
     ejecutarShare(ultimoPdfBlob);
   } else {
-    // Generar PDF en segundo plano y luego compartir
     showToast('Preparando PDF para compartir…');
     const contenido = construirContenidoPDF();
     html2pdf().set({
-      margin:10,
-      filename:ultimoPdfNombre,
+      margin:10, filename:ultimoPdfNombre,
       image:{type:'jpeg',quality:0.95},
       html2canvas:{scale:2,useCORS:true,logging:false},
       jsPDF:{unit:'mm',format:'a4',orientation:'landscape'}
